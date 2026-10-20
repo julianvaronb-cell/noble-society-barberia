@@ -1,27 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-<link rel="stylesheet" href="estilos.css">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reportes Ejecutivos | Noble Society</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#0d0e10;color:#f5f0e6;font-family:Segoe UI,Arial,sans-serif}.layout{display:flex;min-height:100vh}.sidebar{width:230px;flex-shrink:0;background:#151515;border-right:1px solid #453921;padding:30px 17px}.brand{font:26px Georgia,serif;letter-spacing:2px;color:#d6b56b}.sub{font-size:10px;letter-spacing:3px;color:#aaa;margin:9px 0 35px}nav a{display:block;color:#ddd;text-decoration:none;padding:13px;border-radius:8px;margin-bottom:5px}nav a:hover,nav a.active{background:#302818;color:#e5c57e}main{flex:1;min-width:0;padding:42px;max-width:1500px;margin:auto}.overline{color:#d6b56b;font-size:11px;letter-spacing:3px}h1,h2{font-family:Georgia,serif;font-weight:normal}h1{font-size:40px;margin:10px 0}h2{font-size:23px;margin:0 0 20px}.muted{color:#aaa}.toolbar{display:flex;flex-wrap:wrap;gap:10px;margin:25px 0}button,select{padding:11px 16px;border-radius:7px;font:inherit}button{background:#d6b56b;color:#18130b;border:1px solid #d6b56b;cursor:pointer;font-weight:700}button.outline{background:transparent;color:#d6b56b}select{background:#252525;color:white;border:1px solid #65512d}.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}.card,.panel{background:#191919;border:1px solid #3d3425;border-radius:12px;padding:23px}.card small{color:#aaa}.value{color:#d6b56b;font-size:30px;font-weight:700;margin:15px 0 5px;overflow-wrap:anywhere}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:18px 0}.barrow{display:grid;grid-template-columns:100px 1fr 30px;align-items:center;gap:10px;margin:16px 0;font-size:12px}.track{height:12px;border-radius:10px;background:#333;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,#8b682f,#e6c87c)}.barrow strong{text-align:right;color:#d6b56b}.tablewrap{overflow-x:auto}table{width:100%;min-width:610px;border-collapse:collapse}td,th{padding:14px 10px;border-bottom:1px solid #35312b;text-align:left;font-size:13px}th{color:#d6b56b}.error{display:none;padding:15px;border:1px solid #9e5747;color:#ffc1b1;border-radius:8px;margin-bottom:18px}.note{font-size:12px;color:#aaa;margin-top:20px;line-height:1.6}@media(max-width:1000px){.cards{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}@media(max-width:700px){.layout{display:block}.sidebar{width:100%;padding:15px}.sub{margin-bottom:12px}nav{display:flex;overflow-x:auto}nav a{white-space:nowrap;font-size:12px}main{padding:23px 15px}.card{padding:16px}.value{font-size:24px}}
+</style>
 </head>
-
 <body>
-
-<header><h2>Noble Society</h2></header>
-
-<div class="menu">
-<a href="dashboard.html">Inicio</a>
-<a href="clientes.html">Clientes</a>
-<a href="citas.html">Citas</a>
-<a href="servicios.html">Servicios</a>
-<a href="inventario.html">Inventario</a>
-<a href="reportes.html">Reportes</a>
-<a href="index.html">Salir</a>
-</div>
-
-<div class="contenido">
-    <h2>Reportes</h2>
-    <p>Aquí se visualizarán reportes del sistema.</p>
-</div>
-
-</body>
-</html>
+<div class="layout"><aside class="sidebar"><div class="brand">NOBLE SOCIETY</div><div class="sub">BARBERÍA PREMIUM</div><nav><a href="dashboard.html">Inicio</a><a href="clientes.html">Clientes</a><a href="citas.html">Citas</a><a href="servicios.html">Servicios</a><a href="inventario.html">Inventario</a><a class="active" href="reportes.html">Reportes</a><a href="index.html">Salir</a></nav></aside>
+<main><div class="overline">CONTROL ADMINISTRATIVO</div><h1>Reportes Ejecutivos</h1><p class="muted">Indicadores de Noble Society actualizados desde la API.</p>
+<div class="toolbar"><button id="refresh">↻ Actualizar datos</button><button class="outline" id="export">↓ Descargar reporte CSV</button><select id="filter" aria-label="Filtrar citas"><option value="todas">Todas las citas</option><option value="programada">Programadas</option><option value="confirmada">Confirmadas</option><option value="atendida">Atendidas</option><option value="cancelada">Canceladas</option></select></div>
+<div class="error" id="error" role="alert"></div>
+<div class="cards"><div class="card"><small>CLIENTES REGISTRADOS</small><div class="value" id="clients">—</div></div><div class="card"><small>CITAS REGISTRADAS</small><div class="value" id="appointments">—</div></div><div class="card"><small>SERVICIOS DISPONIBLES</small><div class="value" id="services">—</div></div><div class="card"><small>VALOR DEL INVENTARIO</small><div class="value" id="stock">—</div></div></div>
+<div class="grid"><section class="panel"><h2>Citas por estado</h2><div id="chart" class="muted">Cargando...</div></section><section class="panel"><h2>Resumen de operación</h2><div id="summary" class="muted">Cargando...</div></section></div>
+<section class="panel"><h2>Registro de citas</h2><div class="tablewrap"><table><thead><tr><th>Fecha</th><th>Hora</th><th>Cliente</th><th>Servicio</th><th>Estado</th></tr></thead><tbody id="rows"><tr><td colspan="5">Cargando...</td></tr></tbody></table></div><p class="note">Los ingresos estimados se calculan con las citas atendidas y los precios actuales de los servicios. No representan pagos verificados.</p></section>
+</main></div>
+<script>
+'use strict';
+const API='http://localhost:3000/api';
+const el=id=>document.getElementById(id);
+const currency=n=>new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',maximumFractionDigits:0}).format(n);
+const number=v=>Number.isFinite(Number(v))?Number(v):0;
+const safe=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let data={clientes:[],citas:[],servicios:[],inventario:[]};
+async function fetchList(type){const r=await fetch(API+'/'+type);if(!r.ok)throw Error(type+': HTTP '+r.status);const json=await r.json();const list=Array.isArray(json)?json:json.data;if(!Array.isArray(list))throw Error('Respuesta inesperada: '+type);return list;}
+const findName=(list,id)=>list.find(x=>String(x.id)===String(id))?.nombre||'ID '+(id??'—');
+const date=v=>String(v??'').slice(0,10)||'—';const time=v=>String(v??'').slice(0,5)||'—';
+function visibleCitas(){const f=el('filter').value;return data.citas.filter(c=>f==='todas'||String(c.estado).toLowerCase()===f).sort((a,b)=>(date(b.fecha)+' '+time(b.hora)).localeCompare(date(a.fecha)+' '+time(a.hora)));}
+function citaValues(c){return [date(c.fecha),time(c.hora),c.cliente_nombre||findName(data.clientes,c.cliente_id),c.servicio_nombre||findName(data.servicios,c.servicio_id),c.estado||'—'];}
+function renderRows(){const rows=visibleCitas();el('rows').innerHTML=rows.length?rows.map(c=>'<tr>'+citaValues(c).map(v=>'<td>'+safe(v)+'</td>').join('')+'</tr>').join(''):'<tr><td colspan="5">No hay citas para mostrar.</td></tr>';}
+function render(){el('clients').textContent=data.clientes.length;el('appointments').textContent=data.citas.length;el('services').textContent=data.servicios.length;el('stock').textContent=currency(data.inventario.reduce((sum,p)=>sum+number(p.cantidad)*number(p.precio_unitario),0));
+const states=['programada','confirmada','atendida','cancelada'];const counts=Object.fromEntries(states.map(s=>[s,data.citas.filter(c=>String(c.estado).toLowerCase()===s).length]));const max=Math.max(1,...Object.values(counts));el('chart').innerHTML=states.map(s=>'<div class="barrow"><span>'+s+'</span><div class="track"><div class="fill" style="width:'+(100*counts[s]/max)+'%"></div></div><strong>'+counts[s]+'</strong></div>').join('');
+const income=data.citas.filter(c=>c.estado==='atendida').reduce((sum,c)=>sum+number(data.servicios.find(s=>String(s.id)===String(c.servicio_id))?.precio),0);
+el('summary').innerHTML='<p>Citas programadas: <strong>'+counts.programada+'</strong></p><p>Citas confirmadas: <strong>'+counts.confirmada+'</strong></p><p>Citas atendidas: <strong>'+counts.atendida+'</strong></p><p>Citas canceladas: <strong>'+counts.cancelada+'</strong></p><p>Ingresos estimados por citas atendidas: <strong style="color:#d6b56b">'+currency(income)+'</strong></p>';renderRows();}
+async function load(){el('refresh').disabled=true;el('error').style.display='none';try{const [clientes,citas,servicios,inventario]=await Promise.all(['clientes','citas','servicios','inventario'].map(fetchList));data={clientes,citas,servicios,inventario};render();}catch(e){el('error').textContent='No se pudieron cargar los reportes. Comprueba que la API esté activa en http://localhost:3000. Detalle: '+e.message;el('error').style.display='block';}finally{el('refresh').disabled=false;}}
+function exportCSV(){const rows=[['Fecha','Hora','Cliente','Servicio','Estado'],...visibleCitas().map(citaValues)];const text='\ufeff'+rows.map(row=>row.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\r\n');const url=URL.createObjectURL(new Blob([text],{type:'text/csv;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='noble-society-citas.csv';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+el('refresh').addEventListener('click',load);el('filter').addEventListener('change',renderRows);el('export').addEventListener('click',exportCSV);load();
+</script>
+</body></html>
