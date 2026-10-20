@@ -14,6 +14,7 @@ app.get('/api-docs', (_req, res) => res.json({
     inventario: 'GET/POST /api/inventario; GET/PUT/DELETE /api/inventario/:id'
   }
 }));
+app.use('/api/auth', require('./routes/auth')); 
 app.use('/api', routes);
 app.use((_req, res) => res.status(404).json({ error: 'Ruta no encontrada' }));
 app.use((err, _req, res, _next) => {

@@ -1,22 +1,135 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Noble Society Barberia</title>
-<link rel="stylesheet" href="estilos.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Noble Society | Acceso privado</title>
+
+    <!-- DISEÑO PREMIUM ORIGINAL -->
+    <link rel="stylesheet" href="estilos.css">
 </head>
 
 <body class="login-body">
 
-<div class="login-container">
-    <h1>Noble Society Barberia</h1>
-    <form onsubmit="login(event)">
-        <input type="text" placeholder="Usuario" required>
-        <input type="password" placeholder="Contraseña" required>
-        <button type="submit">Ingresar</button>
-    </form>
-</div>
+    <main class="login-container">
 
-<script src="script.js"></script>
+        <h1>NOBLE SOCIETY</h1>
+
+        <p>
+            BARBERÍA DE AUTOR
+            <br>
+            SISTEMA DE ADMINISTRACIÓN
+        </p>
+
+        <form id="formLogin">
+
+            <input
+                type="email"
+                id="correo"
+                name="correo"
+                placeholder="Correo electrónico"
+                autocomplete="username"
+                required
+            >
+
+            <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Contraseña"
+                autocomplete="current-password"
+                required
+            >
+
+            <button type="submit" id="btnLogin">
+                INGRESAR AL SISTEMA
+            </button>
+
+            <p
+                id="mensajeLogin"
+                role="alert"
+                aria-live="polite"
+                style="color: #ff9999; margin: 0;"
+            ></p>
+
+        </form>
+
+        <p style="margin-top: 30px; margin-bottom: 0;">
+            EXCLUSIVIDAD · ELEGANCIA · TRADICIÓN
+        </p>
+
+    </main>
+
+    <!-- LOGIN REAL CON MYSQL -->
+    <script>
+        const API_URL = "http://localhost:3000";
+
+        document.getElementById("formLogin")
+            .addEventListener("submit", async function (e) {
+
+                e.preventDefault();
+
+                const correo = document.getElementById("correo").value.trim();
+                const password = document.getElementById("password").value;
+                const mensaje = document.getElementById("mensajeLogin");
+                const boton = document.getElementById("btnLogin");
+
+                mensaje.textContent = "";
+                boton.disabled = true;
+                boton.textContent = "VERIFICANDO...";
+
+                try {
+                    const respuesta = await fetch(
+                        `${API_URL}/api/auth/login`,
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                correo,
+                                password
+                            })
+                        }
+                    );
+
+                    const datos = await respuesta.json();
+
+                    if (!respuesta.ok) {
+                        throw new Error(
+                            datos.error || "No fue posible iniciar sesión"
+                        );
+                    }
+
+                    if (!datos.token) {
+                        throw new Error("No se recibió el token de acceso");
+                    }
+
+                    sessionStorage.setItem(
+                        "noble_token",
+                        datos.token
+                    );
+
+                    sessionStorage.setItem(
+                        "noble_usuario",
+                        datos.usuario.nombre
+                    );
+
+                    window.location.href = "dashboard.html";
+
+                } catch (error) {
+                    mensaje.textContent = error.message;
+                    console.error("Error de inicio de sesión:", error);
+
+                } finally {
+                    boton.disabled = false;
+                    boton.textContent = "INGRESAR AL SISTEMA";
+                }
+            });
+    </script>
+
 </body>
 </html>
+
