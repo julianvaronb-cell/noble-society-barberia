@@ -1,11 +1,236 @@
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Ejecutivo | Noble Society</title>
+
+    <!-- Estilos generales del proyecto -->
     <link rel="stylesheet" href="estilos.css">
+
+    <style>
+        /* DISEÑO DEL PANEL PRINCIPAL */
+
+        .dashboard-welcome {
+            background: linear-gradient(110deg, #18130f, #352516, #111111);
+            border: 1px solid #725831;
+            border-radius: 16px;
+            padding: 42px 35px;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-welcome h2 {
+            font-family: Georgia, serif;
+            font-size: 34px;
+            line-height: 1.3;
+            color: #f0d39b;
+            margin: 14px 0;
+        }
+
+        .dashboard-welcome h2 em {
+            color: #d6ad60;
+        }
+
+        .dashboard-welcome p {
+            color: #c4b7a3;
+            font-size: 14px;
+            line-height: 1.7;
+            max-width: 550px;
+        }
+
+        .dashboard-welcome .luxury-button {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+        }
+
+        /* TARJETAS DE ESTADÍSTICAS */
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 17px;
+            margin-bottom: 35px;
+        }
+
+        .dashboard-card {
+            background: linear-gradient(145deg, #201d19, #151516);
+            border: 1px solid #4c3c29;
+            border-radius: 14px;
+            padding: 24px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-3px);
+            border-color: #d6ad60;
+        }
+
+        .dashboard-card .card-icon {
+            color: #d6ad60;
+            font-size: 27px;
+        }
+
+        .dashboard-card p {
+            color: #b5a795;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin: 15px 0 8px;
+        }
+
+        .dashboard-card h3 {
+            color: #f0d39b;
+            font-family: Georgia, serif;
+            font-size: 36px;
+            margin: 0;
+        }
+
+        .dashboard-card small {
+            display: block;
+            color: #a59b8f;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        /* ACCESOS RÁPIDOS */
+
+        .dashboard-actions {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+            margin-bottom: 35px;
+        }
+
+        .dashboard-action {
+            display: block;
+            background: #19191a;
+            border: 1px solid #453829;
+            border-radius: 14px;
+            padding: 25px;
+            text-decoration: none;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .dashboard-action:hover {
+            transform: translateY(-3px);
+            border-color: #d6ad60;
+        }
+
+        .dashboard-action .action-icon {
+            color: #d6ad60;
+            font-size: 28px;
+        }
+
+        .dashboard-action h3 {
+            color: #f0d39b;
+            font-size: 18px;
+            margin: 15px 0 8px;
+        }
+
+        .dashboard-action p {
+            color: #b5a99a;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .dashboard-action span:last-child {
+            display: inline-block;
+            color: #d6ad60;
+            font-size: 11px;
+            font-weight: bold;
+            margin-top: 16px;
+        }
+
+        /* PRÓXIMAS RESERVACIONES */
+
+        .dashboard-panel {
+            background: #171718;
+            border: 1px solid #403628;
+            border-radius: 14px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-table-wrap {
+            overflow-x: auto;
+        }
+
+        .dashboard-table {
+            width: 100%;
+            min-width: 560px;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .dashboard-table th {
+            color: #d6ad60;
+            font-size: 11px;
+            letter-spacing: 1px;
+            padding: 15px 12px;
+            border-bottom: 1px solid #59452d;
+        }
+
+        .dashboard-table td {
+            color: #e0d7ca;
+            font-size: 13px;
+            padding: 15px 12px;
+            border-bottom: 1px solid #302b25;
+        }
+
+        .dashboard-empty {
+            color: #aaa093;
+            text-align: center;
+            padding: 25px;
+        }
+
+        .dashboard-status {
+            color: #d6ad60;
+            font-size: 12px;
+        }
+
+        /* DISEÑO RESPONSIVE */
+
+        @media (max-width: 1100px) {
+            .dashboard-stats {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 720px) {
+            .dashboard-welcome {
+                padding: 28px 20px;
+            }
+
+            .dashboard-welcome h2 {
+                font-size: 26px;
+            }
+
+            .dashboard-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-panel {
+                padding: 18px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .dashboard-stats {
+                gap: 10px;
+            }
+
+            .dashboard-card {
+                padding: 16px;
+            }
+
+            .dashboard-card h3 {
+                font-size: 28px;
+            }
+        }
+    </style>
 </head>
 
 <body class="dashboard-body">
@@ -14,6 +239,7 @@
 
     <!-- MENÚ LATERAL -->
     <aside class="luxury-sidebar">
+
         <div class="luxury-brand">
             <div class="brand-monogram">NS</div>
             <h2>NOBLE SOCIETY</h2>
@@ -41,6 +267,7 @@
     <!-- CONTENIDO PRINCIPAL -->
     <main class="luxury-main">
 
+        <!-- ENCABEZADO -->
         <div class="luxury-topbar">
             <div>
                 <span class="eyebrow">NOBLE SOCIETY / ADMINISTRACIÓN</span>
@@ -58,52 +285,66 @@
         </div>
 
         <!-- BIENVENIDA -->
-        <section class="luxury-hero">
-            <div class="hero-content">
-                <span class="eyebrow">BIENVENIDO A NOBLE SOCIETY</span>
-                <h2>Donde la tradición<br>encuentra la <em>distinción.</em></h2>
-                <p>Gestiona cada aspecto de tu barbería desde un espacio diseñado para la excelencia.</p>
-                <a href="citas.html" class="luxury-button">GESTIONAR RESERVAS ↗</a>
-            </div>
+        <section class="dashboard-welcome">
+            <span class="eyebrow">BIENVENIDO A NOBLE SOCIETY</span>
+
+            <h2>
+                Donde la tradición<br>
+                encuentra la <em>distinción.</em>
+            </h2>
+
+            <p>
+                Gestiona cada aspecto de tu barbería desde un espacio
+                diseñado para la excelencia.
+            </p>
+
+            <a href="citas.html" class="luxury-button">
+                GESTIONAR RESERVAS ↗
+            </a>
         </section>
 
-        <!-- ESTADÍSTICAS -->
+        <!-- RESUMEN DEL NEGOCIO -->
         <div class="section-heading">
             <div>
                 <span class="eyebrow">VISIÓN GENERAL</span>
                 <h2>Resumen del negocio</h2>
             </div>
-            <span class="data-status">Datos pendientes de conexión</span>
+
+            <span class="data-status" id="estadoDatos">
+                Cargando información...
+            </span>
         </div>
 
-        <section class="luxury-stats">
-            <article class="stat-card">
-                <span class="stat-icon">◷</span>
+        <section class="dashboard-stats">
+
+            <article class="dashboard-card">
+                <span class="card-icon">◷</span>
                 <p>CITAS PROGRAMADAS</p>
                 <h3 id="totalCitas">—</h3>
-                <small>Próximas reservaciones</small>
+                <small>Reservaciones pendientes</small>
             </article>
 
-            <article class="stat-card">
-                <span class="stat-icon">♙</span>
+            <article class="dashboard-card">
+                <span class="card-icon">♙</span>
                 <p>CLIENTES REGISTRADOS</p>
                 <h3 id="totalClientes">—</h3>
                 <small>Base de clientes</small>
             </article>
 
-            <article class="stat-card">
-                <span class="stat-icon">✂</span>
+            <article class="dashboard-card">
+                <span class="card-icon">✂</span>
                 <p>SERVICIOS DISPONIBLES</p>
                 <h3 id="totalServicios">—</h3>
                 <small>Catálogo de servicios</small>
             </article>
 
-            <article class="stat-card">
-                <span class="stat-icon">▣</span>
+            <article class="dashboard-card">
+                <span class="card-icon">▣</span>
                 <p>PRODUCTOS EN INVENTARIO</p>
                 <h3 id="totalInventario">—</h3>
-                <small>Control de existencias</small>
+                <small>Productos registrados</small>
             </article>
+
         </section>
 
         <!-- ACCESOS RÁPIDOS -->
@@ -114,36 +355,70 @@
             </div>
         </div>
 
-        <section class="luxury-actions">
-            <a href="clientes.html" class="action-card">
-                <span class="action-symbol">♙</span>
+        <section class="dashboard-actions">
+
+            <a href="clientes.html" class="dashboard-action">
+                <span class="action-icon">♙</span>
                 <h3>Gestión de clientes</h3>
                 <p>Organiza y administra la información de tus clientes.</p>
-                <span class="action-link">EXPLORAR ↗</span>
+                <span>EXPLORAR ↗</span>
             </a>
 
-            <a href="citas.html" class="action-card">
-                <span class="action-symbol">◷</span>
+            <a href="citas.html" class="dashboard-action">
+                <span class="action-icon">◷</span>
                 <h3>Agenda de reservas</h3>
                 <p>Consulta y administra las citas de tu barbería.</p>
-                <span class="action-link">EXPLORAR ↗</span>
+                <span>EXPLORAR ↗</span>
             </a>
 
-            <a href="servicios.html" class="action-card">
-                <span class="action-symbol">✂</span>
+            <a href="servicios.html" class="dashboard-action">
+                <span class="action-icon">✂</span>
                 <h3>Catálogo de servicios</h3>
                 <p>Gestiona tu oferta de cortes y tratamientos.</p>
-                <span class="action-link">EXPLORAR ↗</span>
+                <span>EXPLORAR ↗</span>
             </a>
 
-            <a href="inventario.html" class="action-card">
-                <span class="action-symbol">▣</span>
+            <a href="inventario.html" class="dashboard-action">
+                <span class="action-icon">▣</span>
                 <h3>Inventario premium</h3>
                 <p>Administra productos, cantidades y existencias.</p>
-                <span class="action-link">EXPLORAR ↗</span>
+                <span>EXPLORAR ↗</span>
             </a>
+
         </section>
 
+        <!-- PRÓXIMAS CITAS -->
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">AGENDA DEL NEGOCIO</span>
+                <h2>Próximas reservaciones</h2>
+            </div>
+        </div>
+
+        <section class="dashboard-panel">
+            <div class="dashboard-table-wrap">
+                <table class="dashboard-table">
+                    <thead>
+                        <tr>
+                            <th>CLIENTE</th>
+                            <th>FECHA</th>
+                            <th>HORA</th>
+                            <th>ESTADO</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tablaProximasCitas">
+                        <tr>
+                            <td colspan="4" class="dashboard-empty">
+                                Cargando próximas citas...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- PIE DE PÁGINA -->
         <footer class="luxury-footer">
             <span>© 2026 NOBLE SOCIETY</span>
             <span>CRAFTED FOR EXCELLENCE</span>
@@ -153,60 +428,160 @@
 </div>
 
 <script>
-async function cargarEstadisticas() {
+    // DIRECCIÓN DEL BACKEND
     const API = "http://localhost:3000/api";
 
-    const recursos = [
-        { ruta: "citas", id: "totalCitas" },
-        { ruta: "clientes", id: "totalClientes" },
-        { ruta: "servicios", id: "totalServicios" },
-        { ruta: "inventario", id: "totalInventario" }
-    ];
+    // CONSULTAR DATOS DE UNA SECCIÓN
+    async function consultarDatos(ruta) {
+        const respuesta = await fetch(API + "/" + ruta);
 
-    let errores = 0;
+        if (!respuesta.ok) {
+            throw new Error("No se pudieron consultar los datos.");
+        }
 
-    await Promise.all(recursos.map(async (recurso) => {
-        const elemento = document.getElementById(recurso.id);
+        const resultado = await respuesta.json();
 
-        if (!elemento) return;
+        if (!Array.isArray(resultado.data)) {
+            throw new Error("La API no devolvió una lista válida.");
+        }
 
+        return resultado.data;
+    }
+
+    // MOSTRAR LAS ESTADÍSTICAS DEL NEGOCIO
+    async function cargarEstadisticas() {
+        let errores = 0;
+
+        // CLIENTES
         try {
-            const respuesta = await fetch(`${API}/${recurso.ruta}`);
-
-            if (!respuesta.ok) {
-                throw new Error(`Error HTTP ${respuesta.status}`);
-            }
-
-            const resultado = await respuesta.json();
-
-            const total = Number.isFinite(Number(resultado.total))
-                ? Number(resultado.total)
-                : Array.isArray(resultado.data)
-                    ? resultado.data.length
-                    : null;
-
-            if (total === null) {
-                throw new Error("Formato de respuesta inesperado");
-            }
-
-            elemento.textContent = total;
+            const clientes = await consultarDatos("clientes");
+            document.getElementById("totalClientes").textContent =
+                clientes.length;
         } catch (error) {
-            console.error(`Error consultando ${recurso.ruta}:`, error);
-            elemento.textContent = "—";
+            console.error("Error de clientes:", error);
             errores++;
         }
-    }));
 
-    const estado = document.querySelector(".data-status");
+        // SERVICIOS
+        try {
+            const servicios = await consultarDatos("servicios");
+            document.getElementById("totalServicios").textContent =
+                servicios.length;
+        } catch (error) {
+            console.error("Error de servicios:", error);
+            errores++;
+        }
 
-    if (estado) {
-        estado.textContent = errores === 0
-            ? "Datos actualizados desde MySQL"
-            : "Algunas estadísticas no están disponibles";
+        // INVENTARIO
+        try {
+            const inventario = await consultarDatos("inventario");
+            document.getElementById("totalInventario").textContent =
+                inventario.length;
+        } catch (error) {
+            console.error("Error de inventario:", error);
+            errores++;
+        }
+
+        // CITAS
+        try {
+            const citas = await consultarDatos("citas");
+
+            // Contar las citas que todavía están pendientes.
+            const pendientes = citas.filter(cita =>
+                cita.estado === "programada" ||
+                cita.estado === "confirmada"
+            );
+
+            document.getElementById("totalCitas").textContent =
+                pendientes.length;
+
+            mostrarProximasCitas(pendientes);
+
+        } catch (error) {
+            console.error("Error de citas:", error);
+            errores++;
+
+            const tabla = document.getElementById("tablaProximasCitas");
+            tabla.innerHTML = "";
+
+            const celda = tabla.insertRow().insertCell();
+            celda.colSpan = 4;
+            celda.textContent = "No se pudieron cargar las citas.";
+        }
+
+        // ESTADO GENERAL DE LA CONEXIÓN
+        document.getElementById("estadoDatos").textContent =
+            errores === 0
+                ? "Datos actualizados desde MySQL"
+                : "Algunas estadísticas no están disponibles";
     }
-}
 
-document.addEventListener("DOMContentLoaded", cargarEstadisticas);
+    // MOSTRAR LAS PRÓXIMAS CITAS
+    function mostrarProximasCitas(citas) {
+        const tabla = document.getElementById("tablaProximasCitas");
+        tabla.innerHTML = "";
+
+        // Obtener fecha y hora actual.
+        const ahora = new Date();
+
+        // Filtrar citas futuras y ordenar por fecha.
+        const proximas = citas.filter(cita => {
+            if (!cita.fecha || !cita.hora) return false;
+
+            const fecha = String(cita.fecha).slice(0, 10);
+            const hora = String(cita.hora).slice(0, 5);
+            const fechaCita = new Date(fecha + "T" + hora);
+
+            return !isNaN(fechaCita.getTime()) && fechaCita >= ahora;
+        });
+
+        proximas.sort((a, b) => {
+            const fechaA = String(a.fecha).slice(0, 10) +
+                "T" + String(a.hora).slice(0, 5);
+
+            const fechaB = String(b.fecha).slice(0, 10) +
+                "T" + String(b.hora).slice(0, 5);
+
+            return fechaA.localeCompare(fechaB);
+        });
+
+        // Mostrar máximo cinco reservaciones.
+        const primerasCinco = proximas.slice(0, 5);
+
+        if (primerasCinco.length === 0) {
+            const celda = tabla.insertRow().insertCell();
+            celda.colSpan = 4;
+            celda.className = "dashboard-empty";
+            celda.textContent = "No hay próximas reservaciones.";
+            return;
+        }
+
+        primerasCinco.forEach(cita => {
+            const fila = tabla.insertRow();
+
+            const cliente = cita.cliente_nombre ||
+                "Cliente #" + cita.cliente_id;
+
+            const fecha = String(cita.fecha).slice(0, 10);
+            const partes = fecha.split("-");
+
+            const fechaVisible = partes.length === 3
+                ? partes[2] + "/" + partes[1] + "/" + partes[0]
+                : fecha;
+
+            fila.insertCell().textContent = cliente;
+            fila.insertCell().textContent = fechaVisible;
+            fila.insertCell().textContent =
+                String(cita.hora).slice(0, 5);
+
+            const estado = fila.insertCell();
+            estado.textContent = cita.estado || "programada";
+            estado.className = "dashboard-status";
+        });
+    }
+
+    // CARGAR INFORMACIÓN AL ABRIR EL PANEL
+    document.addEventListener("DOMContentLoaded", cargarEstadisticas);
 </script>
 
 </body>

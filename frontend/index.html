@@ -1,135 +1,391 @@
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Noble Society | Acceso privado</title>
 
-    <!-- DISEÑO PREMIUM ORIGINAL -->
+    <!-- ESTILOS GENERALES DEL PROYECTO -->
     <link rel="stylesheet" href="estilos.css">
+
+    <style>
+        /* DISEÑO DEL INICIO DE SESIÓN */
+
+        .login-body {
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+
+            background:
+                radial-gradient(circle at top, #342617, #101011 65%);
+            color: #f3eadb;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 440px;
+            box-sizing: border-box;
+            text-align: center;
+
+            background: #171718;
+            border: 1px solid #735831;
+            border-radius: 18px;
+            padding: 40px 35px;
+
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        /* LOGOTIPO */
+
+        .login-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 25px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 2px solid #d6ad60;
+            border-radius: 50%;
+
+            font-family: Georgia, serif;
+            font-size: 30px;
+            font-weight: bold;
+            color: #d6ad60;
+        }
+
+        /* TÍTULO PRINCIPAL */
+
+        .login-container h1 {
+            font-family: Georgia, serif;
+            font-size: 32px;
+            letter-spacing: 3px;
+            color: #f0d39b;
+            margin: 0 0 12px;
+        }
+
+        .login-subtitle {
+            color: #c5b8a5;
+            font-size: 11px;
+            letter-spacing: 2px;
+            line-height: 1.9;
+            margin-bottom: 30px;
+        }
+
+        .login-line {
+            width: 65px;
+            height: 2px;
+            background: #d6ad60;
+            margin: 0 auto 30px;
+        }
+
+        /* FORMULARIO */
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            text-align: left;
+        }
+
+        .login-field label {
+            display: block;
+            color: #d6ad60;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 9px;
+        }
+
+        .login-field input {
+            width: 100%;
+            box-sizing: border-box;
+            background: #0e0e0f;
+            color: #f5eee4;
+
+            border: 1px solid #514532;
+            border-radius: 8px;
+            padding: 15px;
+
+            font: inherit;
+            outline: none;
+        }
+
+        .login-field input:focus {
+            border-color: #d6ad60;
+        }
+
+        /* MOSTRAR CONTRASEÑA */
+
+        .password-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #bfb2a0;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .password-option input {
+            accent-color: #d6ad60;
+        }
+
+        /* BOTÓN DE INGRESO */
+
+        .login-button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 5px;
+
+            background: linear-gradient(135deg, #f0d39b, #c99c4d);
+            color: #15110a;
+
+            border: none;
+            border-radius: 8px;
+
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+
+        .login-button:hover {
+            background: #f0d39b;
+        }
+
+        .login-button:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
+
+        /* MENSAJES DE ERROR */
+
+        .login-message {
+            min-height: 18px;
+            margin: 0;
+            color: #ff9999;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        /* PIE DEL FORMULARIO */
+
+        .login-footer {
+            margin-top: 30px;
+            color: #b9a17b;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            line-height: 1.8;
+        }
+
+        .login-copyright {
+            margin-top: 20px;
+            color: #776e62;
+            font-size: 10px;
+        }
+
+        /* ADAPTACIÓN A CELULARES */
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 30px 22px;
+            }
+
+            .login-container h1 {
+                font-size: 26px;
+            }
+
+            .login-logo {
+                width: 65px;
+                height: 65px;
+                font-size: 25px;
+            }
+        }
+    </style>
 </head>
 
 <body class="login-body">
 
+    <!-- CONTENEDOR PRINCIPAL -->
     <main class="login-container">
+
+        <!-- LOGOTIPO DE LA BARBERÍA -->
+        <div class="login-logo">NS</div>
 
         <h1>NOBLE SOCIETY</h1>
 
-        <p>
+        <p class="login-subtitle">
             BARBERÍA DE AUTOR
             <br>
             SISTEMA DE ADMINISTRACIÓN
         </p>
 
-        <form id="formLogin">
+        <div class="login-line"></div>
 
-            <input
-                type="email"
-                id="correo"
-                name="correo"
-                placeholder="Correo electrónico"
-                autocomplete="username"
-                required
+        <!-- FORMULARIO DE INICIO DE SESIÓN -->
+        <form id="formLogin" class="login-form">
+
+            <div class="login-field">
+                <label for="correo">CORREO ELECTRÓNICO</label>
+
+                <input
+                    type="email"
+                    id="correo"
+                    name="correo"
+                    placeholder="Ingresa tu correo"
+                    autocomplete="username"
+                    maxlength="150"
+                    required
+                >
+            </div>
+
+            <div class="login-field">
+                <label for="password">CONTRASEÑA</label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Ingresa tu contraseña"
+                    autocomplete="current-password"
+                    required
+                >
+            </div>
+
+            <!-- OPCIÓN PARA VER LA CONTRASEÑA -->
+            <label class="password-option">
+                <input type="checkbox" id="mostrarPassword">
+                Mostrar contraseña
+            </label>
+
+            <!-- BOTÓN PRINCIPAL -->
+            <button
+                type="submit"
+                id="btnLogin"
+                class="login-button"
             >
-
-            <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Contraseña"
-                autocomplete="current-password"
-                required
-            >
-
-            <button type="submit" id="btnLogin">
                 INGRESAR AL SISTEMA
             </button>
 
+            <!-- MENSAJE DE ERROR -->
             <p
                 id="mensajeLogin"
+                class="login-message"
                 role="alert"
                 aria-live="polite"
-                style="color: #ff9999; margin: 0;"
             ></p>
 
         </form>
 
-        <p style="margin-top: 30px; margin-bottom: 0;">
+        <!-- PIE DE PÁGINA -->
+        <p class="login-footer">
             EXCLUSIVIDAD · ELEGANCIA · TRADICIÓN
+        </p>
+
+        <p class="login-copyright">
+            © 2026 NOBLE SOCIETY
         </p>
 
     </main>
 
-    <!-- LOGIN REAL CON MYSQL -->
     <script>
+        // DIRECCIÓN DEL SERVIDOR
         const API_URL = "http://localhost:3000";
 
-        document.getElementById("formLogin")
-            .addEventListener("submit", async function (e) {
+        // ELEMENTOS DEL FORMULARIO
+        const formulario = document.getElementById("formLogin");
+        const correo = document.getElementById("correo");
+        const password = document.getElementById("password");
+        const boton = document.getElementById("btnLogin");
+        const mensaje = document.getElementById("mensajeLogin");
+        const mostrarPassword = document.getElementById("mostrarPassword");
 
-                e.preventDefault();
+        // MOSTRAR U OCULTAR CONTRASEÑA
+        mostrarPassword.addEventListener("change", function() {
+            if (mostrarPassword.checked) {
+                password.type = "text";
+            } else {
+                password.type = "password";
+            }
+        });
 
-                const correo = document.getElementById("correo").value.trim();
-                const password = document.getElementById("password").value;
-                const mensaje = document.getElementById("mensajeLogin");
-                const boton = document.getElementById("btnLogin");
+        // INICIAR SESIÓN
+        formulario.addEventListener("submit", async function(evento) {
 
-                mensaje.textContent = "";
-                boton.disabled = true;
-                boton.textContent = "VERIFICANDO...";
+            // Evitar que la página se recargue.
+            evento.preventDefault();
 
-                try {
-                    const respuesta = await fetch(
-                        `${API_URL}/api/auth/login`,
-                        {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify({
-                                correo,
-                                password
-                            })
-                        }
-                    );
+            // Obtener los datos ingresados.
+            const correoIngresado = correo.value.trim();
+            const passwordIngresada = password.value;
 
-                    const datos = await respuesta.json();
+            // Preparar la pantalla.
+            mensaje.textContent = "";
+            boton.disabled = true;
+            boton.textContent = "VERIFICANDO...";
 
-                    if (!respuesta.ok) {
-                        throw new Error(
-                            datos.error || "No fue posible iniciar sesión"
-                        );
+            try {
+                // Enviar los datos al backend.
+                const respuesta = await fetch(
+                    API_URL + "/api/auth/login",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            correo: correoIngresado,
+                            password: passwordIngresada
+                        })
                     }
+                );
 
-                    if (!datos.token) {
-                        throw new Error("No se recibió el token de acceso");
-                    }
+                // Convertir la respuesta a JSON.
+                const datos = await respuesta.json();
 
-                    sessionStorage.setItem(
-                        "noble_token",
-                        datos.token
+                // Comprobar si el inicio de sesión fue correcto.
+                if (!respuesta.ok) {
+                    throw new Error(
+                        datos.error || "Correo o contraseña incorrectos."
                     );
-
-                    sessionStorage.setItem(
-                        "noble_usuario",
-                        datos.usuario.nombre
-                    );
-
-                    window.location.href = "dashboard.html";
-
-                } catch (error) {
-                    mensaje.textContent = error.message;
-                    console.error("Error de inicio de sesión:", error);
-
-                } finally {
-                    boton.disabled = false;
-                    boton.textContent = "INGRESAR AL SISTEMA";
                 }
-            });
+
+                // Verificar que el servidor envió el token.
+                if (!datos.token) {
+                    throw new Error("No se recibió el token de acceso.");
+                }
+
+                // Guardar los datos de la sesión.
+                sessionStorage.setItem("noble_token", datos.token);
+
+                sessionStorage.setItem(
+                    "noble_usuario",
+                    datos.usuario.nombre
+                );
+
+                // Entrar al panel principal.
+                window.location.href = "dashboard.html";
+
+            } catch (error) {
+                // Mostrar el error al usuario.
+                mensaje.textContent = error.message;
+                console.error("Error de inicio de sesión:", error);
+
+            } finally {
+                // Volver a activar el botón.
+                boton.disabled = false;
+                boton.textContent = "INGRESAR AL SISTEMA";
+            }
+        });
     </script>
 
 </body>
 </html>
-

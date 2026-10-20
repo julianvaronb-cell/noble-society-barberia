@@ -1,313 +1,740 @@
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clientes VIP | Noble Society</title>
+
+    <!-- Estilos generales del proyecto -->
     <link rel="stylesheet" href="estilos.css">
+
+    <style>
+        /* COLORES Y DISEÑO DEL MÓDULO CLIENTES */
+
+        .client-intro {
+            background: linear-gradient(110deg, #17120e, #302315, #101010);
+            border: 1px solid #6a5330;
+            border-radius: 15px;
+            padding: 35px;
+            margin-bottom: 25px;
+        }
+
+        .client-intro h2 {
+            font-family: Georgia, serif;
+            color: #f0d39b;
+            font-size: 30px;
+            margin: 12px 0;
+        }
+
+        .client-intro p {
+            color: #c5b8a5;
+            font-size: 14px;
+        }
+
+        /* TARJETAS DE INFORMACIÓN */
+
+        .client-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .client-stat {
+            background: #19191a;
+            border: 1px solid #51402b;
+            border-radius: 12px;
+            padding: 22px;
+        }
+
+        .client-stat span {
+            display: block;
+            color: #ada295;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+
+        .client-stat strong {
+            display: block;
+            color: #e7c68a;
+            font-size: 30px;
+            margin-top: 10px;
+        }
+
+        /* FORMULARIO Y TABLA */
+
+        .client-panel {
+            background: #171718;
+            border: 1px solid #403628;
+            border-radius: 15px;
+            padding: 28px;
+            margin-bottom: 30px;
+        }
+
+        .client-form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .client-field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .client-field label {
+            color: #d6ad60;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .client-field input,
+        .client-search input {
+            width: 100%;
+            box-sizing: border-box;
+            background: #0e0e0f;
+            color: #f5eee4;
+            border: 1px solid #514532;
+            border-radius: 8px;
+            padding: 14px;
+            font: inherit;
+            outline: none;
+        }
+
+        .client-field input:focus,
+        .client-search input:focus {
+            border-color: #d6ad60;
+        }
+
+        .client-field-wide {
+            grid-column: 1 / -1;
+        }
+
+        /* BOTONES */
+
+        .client-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 22px;
+        }
+
+        .client-save,
+        .client-cancel {
+            width: auto;
+            padding: 13px 20px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .client-save {
+            background: #d6ad60;
+            color: #15110a;
+            border: 1px solid #d6ad60;
+        }
+
+        .client-save:hover {
+            background: #f0d39b;
+        }
+
+        .client-cancel {
+            background: transparent;
+            color: #d6ad60;
+            border: 1px solid #d6ad60;
+        }
+
+        .client-save:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
+
+        .client-message {
+            margin-top: 15px;
+            min-height: 18px;
+            color: #d6ad60;
+            font-size: 13px;
+        }
+
+        .client-message.success {
+            color: #96dfa6;
+        }
+
+        .client-message.error {
+            color: #ff9999;
+        }
+
+        /* BUSCADOR */
+
+        .client-search {
+            margin-bottom: 20px;
+        }
+
+        /* TABLA DE CLIENTES */
+
+        .client-table-wrap {
+            overflow-x: auto;
+        }
+
+        .client-table {
+            width: 100%;
+            min-width: 750px;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .client-table th {
+            color: #d6ad60;
+            font-size: 11px;
+            letter-spacing: 1px;
+            padding: 15px 12px;
+            border-bottom: 1px solid #55452e;
+        }
+
+        .client-table td {
+            color: #e3dbcf;
+            font-size: 13px;
+            padding: 15px 12px;
+            border-bottom: 1px solid #302c27;
+        }
+
+        .client-table tbody tr:hover {
+            background: #211d17;
+        }
+
+        .client-edit,
+        .client-delete {
+            width: auto;
+            padding: 8px 12px;
+            margin: 2px;
+            border-radius: 6px;
+            background: transparent;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .client-edit {
+            color: #d6ad60;
+            border: 1px solid #d6ad60;
+        }
+
+        .client-delete {
+            color: #ef9999;
+            border: 1px solid #875252;
+        }
+
+        /* ADAPTACIÓN A CELULARES */
+
+        @media (max-width: 720px) {
+            .client-form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .client-panel {
+                padding: 18px;
+            }
+
+            .client-intro {
+                padding: 25px 20px;
+            }
+
+            .client-intro h2 {
+                font-size: 25px;
+            }
+        }
+    </style>
 </head>
 
 <body class="dashboard-body">
 
-<div class="luxury-layout">
+    <div class="luxury-layout">
 
-    <aside class="luxury-sidebar">
-        <div class="luxury-brand">
-            <div class="brand-monogram">NS</div>
-            <h2>NOBLE SOCIETY</h2>
-            <span>THE GENTLEMEN'S CLUB</span>
-        </div>
+        <!-- MENÚ LATERAL -->
+        <aside class="luxury-sidebar">
 
-        <p class="sidebar-label">ADMINISTRACIÓN</p>
-
-        <nav class="luxury-nav">
-            <a href="dashboard.html">◈ &nbsp; Panel principal</a>
-            <a href="clientes.html" class="active">♙ &nbsp; Clientes</a>
-            <a href="citas.html">◷ &nbsp; Reservaciones</a>
-            <a href="servicios.html">✂ &nbsp; Servicios</a>
-            <a href="inventario.html">▣ &nbsp; Inventario</a>
-            <a href="reportes.html">▥ &nbsp; Reportes</a>
-        </nav>
-
-        <div class="sidebar-footer">
-            <div class="gold-line"></div>
-            <p>EXCELLENCE IS A STANDARD</p>
-            <a href="index.html">↪ &nbsp; Salir del panel</a>
-        </div>
-    </aside>
-
-    <main class="luxury-main">
-
-        <div class="luxury-topbar">
-            <div>
-                <span class="eyebrow">NOBLE SOCIETY / CLIENTES</span>
-                <h1>Clientela Distinguida<span class="gold-dot">.</span></h1>
-                <p>Una experiencia exclusiva comienza con cada cliente.</p>
+            <div class="luxury-brand">
+                <div class="brand-monogram">NS</div>
+                <h2>NOBLE SOCIETY</h2>
+                <span>THE GENTLEMEN'S CLUB</span>
             </div>
-            <div class="admin-profile">
-                <div class="profile-avatar">NS</div>
+
+            <p class="sidebar-label">ADMINISTRACIÓN</p>
+
+            <nav class="luxury-nav">
+                <a href="dashboard.html">◈ &nbsp; Panel principal</a>
+                <a href="clientes.html" class="active">♙ &nbsp; Clientes</a>
+                <a href="citas.html">◷ &nbsp; Reservaciones</a>
+                <a href="servicios.html">✂ &nbsp; Servicios</a>
+                <a href="inventario.html">▣ &nbsp; Inventario</a>
+                <a href="reportes.html">▥ &nbsp; Reportes</a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="gold-line"></div>
+                <p>EXCELLENCE IS A STANDARD</p>
+                <a href="index.html">↪ &nbsp; Salir del panel</a>
+            </div>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="luxury-main">
+
+            <div class="luxury-topbar">
                 <div>
-                    <strong>Administración</strong>
-                    <small>Gestión de clientes</small>
-                </div>
-            </div>
-        </div>
-
-        <section class="client-intro">
-            <span class="eyebrow">THE NOBLE EXPERIENCE</span>
-            <h2>El privilegio de pertenecer.</h2>
-            <p>Administra tu comunidad de clientes con elegancia y precisión.</p>
-        </section>
-
-        <div class="section-heading">
-            <div>
-                <span class="eyebrow">NUEVO REGISTRO</span>
-                <h2>Registrar cliente</h2>
-            </div>
-        </div>
-
-        <section class="client-panel">
-            <form id="formCliente">
-                <input type="hidden" id="clienteEditando">
-                <div class="client-form-grid">
-                    <div class="client-field">
-                        <label for="nombreCliente">NOMBRE COMPLETO *</label>
-                        <input
-                            id="nombreCliente"
-                            type="text"
-                            placeholder="Nombre y apellido"
-                            maxlength="120"
-                            required
-                        >
-                    </div>
-
-                    <div class="client-field">
-                        <label for="telefonoCliente">TELÉFONO</label>
-                        <input
-                            id="telefonoCliente"
-                            type="tel"
-                            placeholder="Ej. 3001234567"
-                            maxlength="30"
-                        >
-                    </div>
-
-                    <div class="client-field client-field-wide">
-                        <label for="correoCliente">CORREO ELECTRÓNICO</label>
-                        <input
-                            id="correoCliente"
-                            type="email"
-                            placeholder="cliente@correo.com"
-                            maxlength="150"
-                        >
-                    </div>
+                    <span class="eyebrow">NOBLE SOCIETY / CLIENTES</span>
+                    <h1>Clientela Distinguida<span class="gold-dot">.</span></h1>
+                    <p>Una experiencia exclusiva comienza con cada cliente.</p>
                 </div>
 
-                <button class="client-save" type="submit" id="guardarBtn">
-                    + REGISTRAR CLIENTE
-                </button>
-
-                <p id="mensajeCliente" class="client-message" role="status"></p>
-            </form>
-        </section>
-
-        <div class="section-heading">
-            <div>
-                <span class="eyebrow">DIRECTORIO EXCLUSIVO</span>
-                <h2>Clientes registrados</h2>
-            </div>
-            <span id="contadorClientes" class="data-status">Cargando...</span>
-        </div>
-
-        <section class="client-panel">
-            <div class="client-search">
-                <input
-                    type="search"
-                    id="buscarCliente"
-                    placeholder="Buscar por nombre, teléfono o correo..."
-                >
+                <div class="admin-profile">
+                    <div class="profile-avatar">NS</div>
+                    <div>
+                        <strong>Administración</strong>
+                        <small>Gestión de clientes</small>
+                    </div>
+                </div>
             </div>
 
-            <div class="client-table-wrap">
-                <table class="client-table">
-                    <thead>
-                        <tr>
-                            <th>CLIENTE</th>
-                            <th>TELÉFONO</th>
-                            <th>CORREO</th>
-                            <th>REGISTRO</th>
-                            <th>ACCIONES</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tablaClientes">
-                        <tr>
-                            <td colspan="5">Cargando clientes...</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <!-- PRESENTACIÓN -->
+            <section class="client-intro">
+                <span class="eyebrow">THE NOBLE EXPERIENCE</span>
+                <h2>El privilegio de pertenecer.</h2>
+                <p>Administra tu comunidad de clientes con elegancia y precisión.</p>
+            </section>
+
+            <!-- ESTADÍSTICAS -->
+            <section class="client-stats">
+                <div class="client-stat">
+                    <span>CLIENTES REGISTRADOS</span>
+                    <strong id="totalClientes">0</strong>
+                </div>
+
+                <div class="client-stat">
+                    <span>TIPO DE GESTIÓN</span>
+                    <strong>VIP</strong>
+                </div>
+            </section>
+
+            <!-- FORMULARIO -->
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">NUEVO REGISTRO</span>
+                    <h2 id="tituloFormulario">Registrar cliente</h2>
+                </div>
             </div>
-        </section>
 
-        <footer class="luxury-footer">
-            <span>© 2026 NOBLE SOCIETY</span>
-            <span>CRAFTED FOR EXCELLENCE</span>
-        </footer>
-    </main>
-</div>
+            <section class="client-panel">
+                <form id="formCliente">
 
-<script>
-const API_CLIENTES = "http://localhost:3000/api/clientes";
-let clientes = [];
-const formulario = document.getElementById("formCliente");
-const tabla = document.getElementById("tablaClientes");
-const mensaje = document.getElementById("mensajeCliente");
-const buscador = document.getElementById("buscarCliente");
-const boton = document.getElementById("guardarBtn");
-const idCampo = document.getElementById("clienteEditando");
+                    <input type="hidden" id="clienteEditando">
 
-function notificar(texto, tipo = "") {
-    mensaje.textContent = texto;
-    mensaje.className = `client-message ${tipo}`;
-}
+                    <div class="client-form-grid">
 
-function mostrarClientes() {
-    const busqueda = buscador.value.toLowerCase().trim();
-    const filtrados = clientes.filter(cliente =>
-        [cliente.nombre, cliente.telefono, cliente.correo].some(valor =>
-            String(valor ?? "").toLowerCase().includes(busqueda)
-        )
-    );
-    tabla.replaceChildren();
-    if (!filtrados.length) {
-        const celda = tabla.insertRow().insertCell();
-        celda.colSpan = 5;
-        celda.textContent = "No se encontraron clientes.";
-        return;
-    }
-    filtrados.forEach(cliente => {
-        const fila = tabla.insertRow();
-        let fecha = "—";
-        if (cliente.creado_en) {
-            const valorFecha = new Date(cliente.creado_en);
-            if (!Number.isNaN(valorFecha.getTime())) {
-                fecha = valorFecha.toLocaleDateString("es-CO");
+                        <div class="client-field">
+                            <label for="nombreCliente">NOMBRE COMPLETO *</label>
+                            <input
+                                id="nombreCliente"
+                                type="text"
+                                placeholder="Nombre y apellido"
+                                maxlength="120"
+                                required
+                            >
+                        </div>
+
+                        <div class="client-field">
+                            <label for="telefonoCliente">TELÉFONO</label>
+                            <input
+                                id="telefonoCliente"
+                                type="tel"
+                                placeholder="Ej. 3001234567"
+                                maxlength="30"
+                            >
+                        </div>
+
+                        <div class="client-field client-field-wide">
+                            <label for="correoCliente">CORREO ELECTRÓNICO</label>
+                            <input
+                                id="correoCliente"
+                                type="email"
+                                placeholder="cliente@correo.com"
+                                maxlength="150"
+                            >
+                        </div>
+
+                    </div>
+
+                    <div class="client-buttons">
+                        <button class="client-save" id="guardarBtn" type="submit">
+                            + REGISTRAR CLIENTE
+                        </button>
+
+                        <button
+                            class="client-cancel"
+                            id="cancelarBtn"
+                            type="button"
+                            hidden
+                        >
+                            CANCELAR EDICIÓN
+                        </button>
+                    </div>
+
+                    <p id="mensajeCliente" class="client-message" role="status"></p>
+                </form>
+            </section>
+
+            <!-- LISTADO DE CLIENTES -->
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">DIRECTORIO EXCLUSIVO</span>
+                    <h2>Clientes registrados</h2>
+                </div>
+
+                <span id="contadorClientes" class="data-status">
+                    Cargando...
+                </span>
+            </div>
+
+            <section class="client-panel">
+
+                <div class="client-search">
+                    <input
+                        type="search"
+                        id="buscarCliente"
+                        placeholder="Buscar por nombre, teléfono o correo..."
+                        aria-label="Buscar clientes"
+                    >
+                </div>
+
+                <div class="client-table-wrap">
+                    <table class="client-table">
+
+                        <thead>
+                            <tr>
+                                <th>CLIENTE</th>
+                                <th>TELÉFONO</th>
+                                <th>CORREO</th>
+                                <th>REGISTRO</th>
+                                <th>ACCIONES</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="tablaClientes">
+                            <tr>
+                                <td colspan="5">Cargando clientes...</td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </section>
+
+            <footer class="luxury-footer">
+                <span>© 2026 NOBLE SOCIETY</span>
+                <span>CRAFTED FOR EXCELLENCE</span>
+            </footer>
+
+        </main>
+    </div>
+
+    <script>
+        // DIRECCIÓN DEL BACKEND
+        const API_CLIENTES = "http://localhost:3000/api/clientes";
+
+        // VARIABLES PRINCIPALES
+        let clientes = [];
+
+        const formulario = document.getElementById("formCliente");
+        const tabla = document.getElementById("tablaClientes");
+        const mensaje = document.getElementById("mensajeCliente");
+        const buscador = document.getElementById("buscarCliente");
+        const boton = document.getElementById("guardarBtn");
+        const cancelarBtn = document.getElementById("cancelarBtn");
+        const idCampo = document.getElementById("clienteEditando");
+
+        // MOSTRAR MENSAJES EN PANTALLA
+        function notificar(texto, tipo = "") {
+            mensaje.textContent = texto;
+            mensaje.className = "client-message " + tipo;
+        }
+
+        // MOSTRAR CLIENTES EN LA TABLA
+        function mostrarClientes() {
+            const busqueda = buscador.value.toLowerCase().trim();
+
+            const filtrados = clientes.filter(cliente => {
+                const texto = (
+                    (cliente.nombre || "") + " " +
+                    (cliente.telefono || "") + " " +
+                    (cliente.correo || "")
+                ).toLowerCase();
+
+                return texto.includes(busqueda);
+            });
+
+            tabla.innerHTML = "";
+
+            if (filtrados.length === 0) {
+                const fila = tabla.insertRow();
+                const celda = fila.insertCell();
+
+                celda.colSpan = 5;
+                celda.textContent = "No se encontraron clientes.";
+                return;
+            }
+
+            filtrados.forEach(cliente => {
+                const fila = tabla.insertRow();
+
+                // Convertir fecha para mostrarla al usuario.
+                let fecha = "—";
+
+                if (cliente.creado_en) {
+                    const valorFecha = new Date(cliente.creado_en);
+
+                    if (!isNaN(valorFecha.getTime())) {
+                        fecha = valorFecha.toLocaleDateString("es-CO");
+                    }
+                }
+
+                // Crear las columnas.
+                fila.insertCell().textContent = cliente.nombre || "—";
+                fila.insertCell().textContent = cliente.telefono || "—";
+                fila.insertCell().textContent = cliente.correo || "—";
+                fila.insertCell().textContent = fecha;
+
+                // Crear botones de acciones.
+                const acciones = fila.insertCell();
+
+                const editar = document.createElement("button");
+                editar.textContent = "Editar";
+                editar.className = "client-edit";
+                editar.type = "button";
+                editar.onclick = () => editarCliente(cliente.id);
+
+                const eliminar = document.createElement("button");
+                eliminar.textContent = "Eliminar";
+                eliminar.className = "client-delete";
+                eliminar.type = "button";
+                eliminar.onclick = () => eliminarCliente(cliente.id);
+
+                acciones.append(editar, eliminar);
+            });
+        }
+
+        // CONSULTAR CLIENTES EN EL BACKEND
+        async function cargarClientes() {
+            try {
+                const respuesta = await fetch(API_CLIENTES);
+
+                if (!respuesta.ok) {
+                    throw new Error("No se pudieron consultar los clientes.");
+                }
+
+                const resultado = await respuesta.json();
+                clientes = resultado.data;
+
+                if (!Array.isArray(clientes)) {
+                    throw new Error("La API no devolvió una lista de clientes.");
+                }
+
+                document.getElementById("totalClientes").textContent =
+                    clientes.length;
+
+                document.getElementById("contadorClientes").textContent =
+                    clientes.length + " clientes registrados";
+
+                mostrarClientes();
+                return true;
+
+            } catch (error) {
+                notificar(error.message, "error");
+
+                document.getElementById("contadorClientes").textContent =
+                    "Sin conexión";
+
+                tabla.innerHTML = "";
+
+                const celda = tabla.insertRow().insertCell();
+                celda.colSpan = 5;
+                celda.textContent = "No se pudieron cargar los clientes.";
+
+                return false;
             }
         }
-        [cliente.nombre ?? "—", cliente.telefono ?? "—", cliente.correo ?? "—", fecha]
-            .forEach(valor => { fila.insertCell().textContent = valor; });
-        const acciones = fila.insertCell();
-        const editar = document.createElement("button");
-        editar.type = "button";
-        editar.className = "client-edit";
-        editar.textContent = "Editar";
-        editar.addEventListener("click", () => editarCliente(cliente.id));
-        const eliminar = document.createElement("button");
-        eliminar.type = "button";
-        eliminar.className = "client-delete";
-        eliminar.textContent = "Eliminar";
-        eliminar.addEventListener("click", () => eliminarCliente(cliente.id));
-        acciones.append(editar, eliminar);
-    });
-}
 
-function editarCliente(id) {
-    const cliente = clientes.find(c => String(c.id) === String(id));
-    if (!cliente) return;
-    idCampo.value = cliente.id;
-    document.getElementById("nombreCliente").value = cliente.nombre ?? "";
-    document.getElementById("telefonoCliente").value = cliente.telefono ?? "";
-    document.getElementById("correoCliente").value = cliente.correo ?? "";
-    boton.textContent = "GUARDAR CAMBIOS";
-    notificar("Editando cliente seleccionado.");
-    formulario.scrollIntoView({ behavior: "smooth", block: "center" });
-}
+        // CARGAR UN CLIENTE EN EL FORMULARIO PARA EDITARLO
+        function editarCliente(id) {
+            const cliente = clientes.find(c => c.id == id);
 
-async function cargarClientes() {
-    try {
-        const respuesta = await fetch(API_CLIENTES);
-        if (!respuesta.ok) throw new Error("No se pudieron consultar los clientes.");
-        const resultado = await respuesta.json();
-        if (!Array.isArray(resultado.data)) throw new Error("Respuesta inesperada de la API.");
-        clientes = resultado.data;
-        document.getElementById("contadorClientes").textContent =
-            `${resultado.total ?? clientes.length} clientes registrados`;
-        mostrarClientes();
-        return true;
-    } catch (error) {
-        console.error(error);
-        notificar(error.message, "error");
-        document.getElementById("contadorClientes").textContent = "Sin conexión";
-        tabla.replaceChildren();
-        const celda = tabla.insertRow().insertCell();
-        celda.colSpan = 5;
-        celda.textContent = "No se pudieron cargar los clientes.";
-        return false;
-    }
-}
+            if (!cliente) return;
 
-async function eliminarCliente(id) {
-    if (!confirm("¿Seguro que deseas eliminar este cliente? Esta acción no se puede deshacer.")) return;
-    try {
-        const respuesta = await fetch(`${API_CLIENTES}/${id}`, { method: "DELETE" });
-        if (!respuesta.ok) {
-            const detalle = await respuesta.json().catch(() => ({}));
-            throw new Error(detalle.mensaje || detalle.error ||
-                "No se pudo eliminar. El cliente podría tener citas asociadas.");
+            idCampo.value = cliente.id;
+
+            document.getElementById("nombreCliente").value =
+                cliente.nombre || "";
+
+            document.getElementById("telefonoCliente").value =
+                cliente.telefono || "";
+
+            document.getElementById("correoCliente").value =
+                cliente.correo || "";
+
+            document.getElementById("tituloFormulario").textContent =
+                "Editar cliente";
+
+            boton.textContent = "GUARDAR CAMBIOS";
+            cancelarBtn.hidden = false;
+
+            notificar("Editando cliente seleccionado.");
+
+            formulario.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
         }
-        if (String(idCampo.value) === String(id)) {
+
+        // LIMPIAR EL FORMULARIO
+        function limpiarFormulario() {
             formulario.reset();
             idCampo.value = "";
+
+            document.getElementById("tituloFormulario").textContent =
+                "Registrar cliente";
+
             boton.textContent = "+ REGISTRAR CLIENTE";
+            cancelarBtn.hidden = true;
         }
-        if (await cargarClientes()) notificar("Cliente eliminado correctamente.", "success");
-    } catch (error) {
-        notificar(error.message, "error");
-    }
-}
 
-formulario.addEventListener("submit", async evento => {
-    evento.preventDefault();
-    const nombre = document.getElementById("nombreCliente").value.trim();
-    const telefono = document.getElementById("telefonoCliente").value.trim();
-    const correo = document.getElementById("correoCliente").value.trim();
-    const idEditando = idCampo.value;
-    if (!nombre) return notificar("Debes ingresar el nombre del cliente.", "error");
-    boton.disabled = true;
-    boton.textContent = "GUARDANDO...";
-    let guardado = false;
-    try {
-        const respuesta = await fetch(
-            idEditando ? `${API_CLIENTES}/${idEditando}` : API_CLIENTES,
-            {
-                method: idEditando ? "PUT" : "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ nombre, telefono, correo })
+        // ELIMINAR UN CLIENTE
+        async function eliminarCliente(id) {
+            const confirmar = confirm(
+                "¿Seguro que deseas eliminar este cliente?"
+            );
+
+            if (!confirmar) return;
+
+            try {
+                const respuesta = await fetch(API_CLIENTES + "/" + id, {
+                    method: "DELETE"
+                });
+
+                if (!respuesta.ok) {
+                    const detalle = await respuesta.json().catch(() => ({}));
+
+                    throw new Error(
+                        detalle.mensaje ||
+                        detalle.error ||
+                        "No se pudo eliminar el cliente. Puede tener citas asociadas."
+                    );
+                }
+
+                if (idCampo.value == id) {
+                    limpiarFormulario();
+                }
+
+                const cargados = await cargarClientes();
+
+                if (cargados) {
+                    notificar("Cliente eliminado correctamente.", "success");
+                }
+
+            } catch (error) {
+                notificar(error.message, "error");
             }
-        );
-        if (!respuesta.ok) {
-            const detalle = await respuesta.json().catch(() => ({}));
-            throw new Error(detalle.mensaje || detalle.error || "No fue posible guardar el cliente.");
         }
-        guardado = true;
-        formulario.reset();
-        idCampo.value = "";
-        const cargados = await cargarClientes();
-        if (cargados) {
-            notificar(idEditando ? "Cliente actualizado correctamente." :
-                "Cliente registrado correctamente.", "success");
-        }
-    } catch (error) {
-        notificar(error.message, "error");
-    } finally {
-        boton.disabled = false;
-        boton.textContent = guardado ? "+ REGISTRAR CLIENTE" :
-            (idEditando ? "GUARDAR CAMBIOS" : "+ REGISTRAR CLIENTE");
-    }
-});
 
-buscador.addEventListener("input", mostrarClientes);
-cargarClientes();
-</script>
+        // REGISTRAR O ACTUALIZAR CLIENTES
+        formulario.addEventListener("submit", async function(evento) {
+            evento.preventDefault();
+
+            const nombre = document.getElementById("nombreCliente").value.trim();
+            const telefono = document.getElementById("telefonoCliente").value.trim();
+            const correo = document.getElementById("correoCliente").value.trim();
+            const id = idCampo.value;
+
+            if (nombre === "") {
+                notificar("Debes ingresar el nombre.", "error");
+                return;
+            }
+
+            boton.disabled = true;
+            boton.textContent = "GUARDANDO...";
+
+            let guardado = false;
+
+            try {
+                const respuesta = await fetch(
+                    id ? API_CLIENTES + "/" + id : API_CLIENTES,
+                    {
+                        method: id ? "PUT" : "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            nombre: nombre,
+                            telefono: telefono,
+                            correo: correo
+                        })
+                    }
+                );
+
+                if (!respuesta.ok) {
+                    const detalle = await respuesta.json().catch(() => ({}));
+
+                    throw new Error(
+                        detalle.mensaje ||
+                        detalle.error ||
+                        "No se pudo guardar el cliente."
+                    );
+                }
+
+                guardado = true;
+                limpiarFormulario();
+
+                const cargados = await cargarClientes();
+
+                if (cargados) {
+                    notificar(
+                        id
+                            ? "Cliente actualizado correctamente."
+                            : "Cliente registrado correctamente.",
+                        "success"
+                    );
+                }
+
+            } catch (error) {
+                notificar(error.message, "error");
+
+            } finally {
+                boton.disabled = false;
+
+                if (!guardado) {
+                    boton.textContent = id
+                        ? "GUARDAR CAMBIOS"
+                        : "+ REGISTRAR CLIENTE";
+                }
+            }
+        });
+
+        // CANCELAR EDICIÓN
+        cancelarBtn.addEventListener("click", function() {
+            limpiarFormulario();
+            notificar("Edición cancelada.");
+        });
+
+        // BUSCAR MIENTRAS SE ESCRIBE
+        buscador.addEventListener("input", mostrarClientes);
+
+        // CARGAR LOS CLIENTES AL ABRIR LA PÁGINA
+        cargarClientes();
+    </script>
 
 </body>
 </html>
+

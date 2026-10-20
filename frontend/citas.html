@@ -1,216 +1,1056 @@
+
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reservaciones VIP | Noble Society</title>
-<link rel="stylesheet" href="estilos.css">
-<style>
-.booking-intro{padding:40px 34px;border:1px solid #57462c;border-radius:13px;background:linear-gradient(110deg,#12100f,#201a14 70%,#101010)}
-.booking-intro h2{font-family:'Cinzel',Georgia,serif;color:#e7c68a;font-size:clamp(22px,3vw,34px);margin:12px 0}.booking-intro p{color:#ada59a;font-size:13px}
-.booking-panel{background:#151516;border:1px solid #393126;border-radius:13px;padding:28px}.booking-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
-.booking-field{display:flex;flex-direction:column;gap:9px}.booking-field label{font-size:11px;letter-spacing:1px;color:#c8a76c;font-weight:700}
-.booking-field input,.booking-field select,.booking-field textarea,.booking-search{width:100%;box-sizing:border-box;background:#0e0e0f;color:#f4f0e8;border:1px solid #454035;border-radius:8px;padding:14px;font:inherit;outline:none}
-.booking-field input:focus,.booking-field select:focus,.booking-field textarea:focus,.booking-search:focus{border-color:#d6ad60}.booking-field select option{background:#171717;color:#fff}
-.booking-wide{grid-column:1/-1}.booking-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}.booking-btn{width:auto;padding:13px 20px;border-radius:7px;cursor:pointer;font-weight:700;letter-spacing:.7px;font-size:12px;border:1px solid #d6ad60;background:#d6ad60;color:#111}.booking-btn:disabled{opacity:.55;cursor:wait}.booking-secondary{background:transparent;color:#d6ad60}.booking-message{margin-top:14px;font-size:13px;color:#d6ad60;min-height:1em}.booking-message.error{color:#ff9a9a}.booking-message.success{color:#91d6a0}
-.booking-table-wrap{overflow-x:auto}.booking-table{width:100%;border-collapse:collapse;text-align:left;min-width:850px}.booking-table th{color:#d6ad60;font-size:11px;letter-spacing:1px;padding:15px 12px;border-bottom:1px solid #55452e}.booking-table td{color:#ddd5c9;font-size:13px;padding:15px 12px;border-bottom:1px solid #302c27}.booking-table tbody tr:hover{background:#211d17}.booking-small-btn{width:auto;padding:8px 11px;margin:2px;border-radius:5px;border:1px solid #d6ad60;background:transparent;color:#d6ad60;cursor:pointer;font-size:12px}.booking-small-btn.danger{border-color:#875252;color:#e58b8b}.booking-search{margin-bottom:20px}.booking-status{color:#e7c68a}.booking-hint{color:#ada59a;font-size:12px;margin-top:12px}
-@media(max-width:720px){.booking-grid{grid-template-columns:1fr}.booking-panel{padding:19px}.booking-intro{padding:27px 21px}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Reservaciones VIP | Noble Society</title>
+
+    <!-- ESTILOS GENERALES -->
+    <link rel="stylesheet" href="estilos.css">
+
+    <style>
+        /* PRESENTACIÓN */
+
+        .booking-banner {
+            background: linear-gradient(110deg, #17120e, #302315, #101010);
+            border: 1px solid #6a5330;
+            border-radius: 15px;
+            padding: 35px;
+            margin-bottom: 25px;
+        }
+
+        .booking-banner h2 {
+            font-family: Georgia, serif;
+            color: #f0d39b;
+            font-size: 30px;
+            margin: 12px 0;
+        }
+
+        .booking-banner p {
+            color: #c5b8a5;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* ESTADÍSTICAS */
+
+        .booking-stats {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .booking-stat {
+            background: #19191a;
+            border: 1px solid #51402b;
+            border-radius: 12px;
+            padding: 22px;
+        }
+
+        .booking-stat span {
+            display: block;
+            color: #ada295;
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+
+        .booking-stat strong {
+            display: block;
+            color: #e7c68a;
+            font-family: Georgia, serif;
+            font-size: 29px;
+            margin-top: 12px;
+        }
+
+        /* FORMULARIO Y PANELES */
+
+        .booking-panel {
+            background: #171718;
+            border: 1px solid #403628;
+            border-radius: 15px;
+            padding: 28px;
+            margin-bottom: 30px;
+        }
+
+        .booking-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .booking-field {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .booking-field label {
+            color: #d6ad60;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .booking-field input,
+        .booking-field select,
+        .booking-field textarea,
+        .booking-search,
+        .booking-filter {
+            width: 100%;
+            box-sizing: border-box;
+            background: #0e0e0f;
+            color: #f5eee4;
+            border: 1px solid #514532;
+            border-radius: 8px;
+            padding: 14px;
+            font: inherit;
+            outline: none;
+        }
+
+        .booking-field input:focus,
+        .booking-field select:focus,
+        .booking-field textarea:focus,
+        .booking-search:focus,
+        .booking-filter:focus {
+            border-color: #d6ad60;
+        }
+
+        .booking-field textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .booking-wide {
+            grid-column: 1 / -1;
+        }
+
+        /* BOTONES */
+
+        .booking-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        .booking-save,
+        .booking-cancel,
+        .booking-refresh {
+            width: auto;
+            padding: 13px 20px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .booking-save {
+            background: #d6ad60;
+            color: #15110a;
+            border: 1px solid #d6ad60;
+        }
+
+        .booking-save:hover {
+            background: #f0d39b;
+        }
+
+        .booking-save:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
+
+        .booking-cancel,
+        .booking-refresh {
+            background: transparent;
+            color: #d6ad60;
+            border: 1px solid #d6ad60;
+        }
+
+        .booking-message {
+            min-height: 18px;
+            margin-top: 15px;
+            color: #d6ad60;
+            font-size: 13px;
+        }
+
+        .booking-message.success {
+            color: #96dfa6;
+        }
+
+        .booking-message.error {
+            color: #ff9999;
+        }
+
+        .booking-note {
+            color: #a99f91;
+            font-size: 12px;
+            margin-top: 15px;
+        }
+
+        /* BUSCADOR Y FILTROS */
+
+        .booking-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .booking-search {
+            flex: 2 1 250px;
+        }
+
+        .booking-filter {
+            flex: 1 1 160px;
+        }
+
+        /* TABLA */
+
+        .booking-table-wrap {
+            overflow-x: auto;
+        }
+
+        .booking-table {
+            width: 100%;
+            min-width: 800px;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .booking-table th {
+            color: #d6ad60;
+            font-size: 11px;
+            letter-spacing: 1px;
+            padding: 15px 12px;
+            border-bottom: 1px solid #55452e;
+        }
+
+        .booking-table td {
+            color: #e3dbcf;
+            font-size: 13px;
+            padding: 15px 12px;
+            border-bottom: 1px solid #302c27;
+        }
+
+        .booking-table tbody tr:hover {
+            background: #211d17;
+        }
+
+        /* ESTADOS DE LAS CITAS */
+
+        .booking-status {
+            display: inline-block;
+            padding: 7px 11px;
+            border-radius: 20px;
+            font-size: 11px;
+            text-transform: capitalize;
+            font-weight: bold;
+        }
+
+        .status-programada {
+            color: #e7c68a;
+            background: #332919;
+        }
+
+        .status-confirmada {
+            color: #91c6ff;
+            background: #182b40;
+        }
+
+        .status-atendida {
+            color: #9de4b0;
+            background: #193322;
+        }
+
+        .status-cancelada {
+            color: #ffaaaa;
+            background: #3b2020;
+        }
+
+        /* BOTONES DE LA TABLA */
+
+        .booking-edit,
+        .booking-delete {
+            width: auto;
+            padding: 8px 12px;
+            margin: 2px;
+            border-radius: 6px;
+            background: transparent;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .booking-edit {
+            color: #d6ad60;
+            border: 1px solid #d6ad60;
+        }
+
+        .booking-delete {
+            color: #ef9999;
+            border: 1px solid #875252;
+        }
+
+        /* DISEÑO PARA CELULARES */
+
+        @media (max-width: 1000px) {
+            .booking-stats {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 720px) {
+            .booking-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .booking-wide {
+                grid-column: auto;
+            }
+
+            .booking-panel {
+                padding: 18px;
+            }
+
+            .booking-banner {
+                padding: 25px 20px;
+            }
+
+            .booking-banner h2 {
+                font-size: 25px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .booking-stat {
+                padding: 15px;
+            }
+
+            .booking-stat strong {
+                font-size: 25px;
+            }
+        }
+    </style>
 </head>
+
 <body class="dashboard-body">
+
 <div class="luxury-layout">
-<aside class="luxury-sidebar">
-<div class="luxury-brand"><div class="brand-monogram">NS</div><h2>NOBLE SOCIETY</h2><span>THE GENTLEMEN'S CLUB</span></div>
-<p class="sidebar-label">ADMINISTRACIÓN</p>
-<nav class="luxury-nav">
-<a href="dashboard.html">◈ &nbsp; Panel principal</a>
-<a href="clientes.html">♙ &nbsp; Clientes</a>
-<a href="citas.html" class="active">◷ &nbsp; Reservaciones</a>
-<a href="servicios.html">✂ &nbsp; Servicios</a>
-<a href="inventario.html">▣ &nbsp; Inventario</a>
-<a href="reportes.html">▥ &nbsp; Reportes</a>
-</nav>
-<div class="sidebar-footer"><div class="gold-line"></div><p>EXCELLENCE IS A STANDARD</p><a href="index.html">↪ &nbsp; Salir del panel</a></div>
-</aside>
-<main class="luxury-main">
-<div class="luxury-topbar"><div><span class="eyebrow">NOBLE SOCIETY / RESERVACIONES</span><h1>Agenda de Reservaciones<span class="gold-dot">.</span></h1><p>Organiza cada experiencia con distinción.</p></div><div class="admin-profile"><div class="profile-avatar">NS</div><div><strong>Administración</strong><small>Gestión de citas</small></div></div></div>
-<section class="booking-intro"><span class="eyebrow">THE NOBLE EXPERIENCE</span><h2>Cada cita, una experiencia exclusiva.</h2><p>Gestiona las reservaciones de tu barbería desde un solo lugar.</p></section>
-<div class="section-heading"><div><span class="eyebrow">GESTIÓN DE AGENDA</span><h2 id="tituloFormulario">Nueva reservación</h2></div></div>
-<section class="booking-panel">
-<form id="formCita">
-<input type="hidden" id="citaEditando">
-<div class="booking-grid">
-<div class="booking-field"><label for="clienteCita">CLIENTE *</label><select id="clienteCita" required><option value="">Cargando clientes...</option></select></div>
-<div class="booking-field"><label for="servicioCita">SERVICIO *</label><select id="servicioCita" required><option value="">Cargando servicios...</option></select></div>
-<div class="booking-field"><label for="fechaCita">FECHA *</label><input id="fechaCita" type="date" required></div>
-<div class="booking-field"><label for="horaCita">HORA *</label><input id="horaCita" type="time" required></div>
-<div class="booking-field"><label for="estadoCita">ESTADO</label><select id="estadoCita"><option value="programada">Programada</option><option value="confirmada">Confirmada</option><option value="atendida">Atendida</option><option value="cancelada">Cancelada</option></select></div>
-<div class="booking-field booking-wide"><label for="observacionesCita">OBSERVACIONES</label><textarea id="observacionesCita" rows="3" maxlength="500" placeholder="Notas opcionales sobre la reservación..."></textarea></div>
+
+    <!-- MENÚ LATERAL -->
+    <aside class="luxury-sidebar">
+
+        <div class="luxury-brand">
+            <div class="brand-monogram">NS</div>
+            <h2>NOBLE SOCIETY</h2>
+            <span>THE GENTLEMEN'S CLUB</span>
+        </div>
+
+        <p class="sidebar-label">ADMINISTRACIÓN</p>
+
+        <nav class="luxury-nav">
+            <a href="dashboard.html">◈ &nbsp; Panel principal</a>
+            <a href="clientes.html">♙ &nbsp; Clientes</a>
+            <a href="citas.html" class="active">◷ &nbsp; Reservaciones</a>
+            <a href="servicios.html">✂ &nbsp; Servicios</a>
+            <a href="inventario.html">▣ &nbsp; Inventario</a>
+            <a href="reportes.html">▥ &nbsp; Reportes</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="gold-line"></div>
+            <p>EXCELLENCE IS A STANDARD</p>
+            <a href="index.html">↪ &nbsp; Salir del panel</a>
+        </div>
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="luxury-main">
+
+        <!-- ENCABEZADO -->
+        <div class="luxury-topbar">
+            <div>
+                <span class="eyebrow">NOBLE SOCIETY / RESERVACIONES</span>
+                <h1>Agenda de Reservaciones<span class="gold-dot">.</span></h1>
+                <p>Organiza cada experiencia con distinción.</p>
+            </div>
+
+            <div class="admin-profile">
+                <div class="profile-avatar">NS</div>
+                <div>
+                    <strong>Administración</strong>
+                    <small>Gestión de citas</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- PRESENTACIÓN -->
+        <section class="booking-banner">
+            <span class="eyebrow">THE NOBLE EXPERIENCE</span>
+            <h2>Cada cita, una experiencia exclusiva.</h2>
+            <p>
+                Controla tu agenda, organiza tus clientes y administra
+                cada reservación desde un solo lugar.
+            </p>
+        </section>
+
+        <!-- ESTADÍSTICAS -->
+        <section class="booking-stats">
+
+            <article class="booking-stat">
+                <span>TOTAL DE CITAS</span>
+                <strong id="statTotal">0</strong>
+            </article>
+
+            <article class="booking-stat">
+                <span>PROGRAMADAS</span>
+                <strong id="statProgramadas">0</strong>
+            </article>
+
+            <article class="booking-stat">
+                <span>CONFIRMADAS</span>
+                <strong id="statConfirmadas">0</strong>
+            </article>
+
+            <article class="booking-stat">
+                <span>ATENDIDAS</span>
+                <strong id="statAtendidas">0</strong>
+            </article>
+
+        </section>
+
+        <!-- FORMULARIO -->
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">GESTIÓN DE AGENDA</span>
+                <h2 id="tituloFormulario">Nueva reservación</h2>
+            </div>
+        </div>
+
+        <section class="booking-panel">
+
+            <form id="formCita">
+
+                <input type="hidden" id="citaEditando">
+
+                <div class="booking-grid">
+
+                    <div class="booking-field">
+                        <label for="clienteCita">CLIENTE *</label>
+                        <select id="clienteCita" required>
+                            <option value="">Cargando clientes...</option>
+                        </select>
+                    </div>
+
+                    <div class="booking-field">
+                        <label for="servicioCita">SERVICIO *</label>
+                        <select id="servicioCita" required>
+                            <option value="">Cargando servicios...</option>
+                        </select>
+                    </div>
+
+                    <div class="booking-field">
+                        <label for="fechaCita">FECHA *</label>
+                        <input id="fechaCita" type="date" required>
+                    </div>
+
+                    <div class="booking-field">
+                        <label for="horaCita">HORA *</label>
+                        <input id="horaCita" type="time" required>
+                    </div>
+
+                    <div class="booking-field">
+                        <label for="estadoCita">ESTADO</label>
+                        <select id="estadoCita">
+                            <option value="programada">Programada</option>
+                            <option value="confirmada">Confirmada</option>
+                            <option value="atendida">Atendida</option>
+                            <option value="cancelada">Cancelada</option>
+                        </select>
+                    </div>
+
+                    <div class="booking-field booking-wide">
+                        <label for="observacionesCita">OBSERVACIONES</label>
+                        <textarea
+                            id="observacionesCita"
+                            rows="3"
+                            maxlength="500"
+                            placeholder="Notas opcionales sobre la reservación..."
+                        ></textarea>
+                    </div>
+
+                </div>
+
+                <div class="booking-buttons">
+
+                    <button
+                        class="booking-save"
+                        id="guardarCitaBtn"
+                        type="submit"
+                    >
+                        + AGENDAR CITA
+                    </button>
+
+                    <button
+                        class="booking-cancel"
+                        id="cancelarEdicion"
+                        type="button"
+                        hidden
+                    >
+                        CANCELAR EDICIÓN
+                    </button>
+
+                </div>
+
+                <p
+                    id="mensajeCita"
+                    class="booking-message"
+                    role="status"
+                ></p>
+
+                <p class="booking-note">
+                    Para reservar, primero debes registrar clientes y servicios.
+                </p>
+
+            </form>
+        </section>
+
+        <!-- LISTADO DE CITAS -->
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">DIRECTORIO DE RESERVAS</span>
+                <h2>Citas registradas</h2>
+            </div>
+
+            <span id="contadorCitas" class="data-status">
+                Cargando...
+            </span>
+        </div>
+
+        <section class="booking-panel">
+
+            <div class="booking-toolbar">
+
+                <input
+                    class="booking-search"
+                    id="buscarCita"
+                    type="search"
+                    placeholder="Buscar cliente, servicio, fecha o estado..."
+                    aria-label="Buscar reservaciones"
+                >
+
+                <select
+                    class="booking-filter"
+                    id="filtrarEstado"
+                    aria-label="Filtrar por estado"
+                >
+                    <option value="">Todos los estados</option>
+                    <option value="programada">Programadas</option>
+                    <option value="confirmada">Confirmadas</option>
+                    <option value="atendida">Atendidas</option>
+                    <option value="cancelada">Canceladas</option>
+                </select>
+
+                <button
+                    class="booking-refresh"
+                    id="actualizarCitas"
+                    type="button"
+                >
+                    ↻ ACTUALIZAR
+                </button>
+
+            </div>
+
+            <div class="booking-table-wrap">
+
+                <table class="booking-table">
+
+                    <thead>
+                        <tr>
+                            <th>CLIENTE</th>
+                            <th>SERVICIO</th>
+                            <th>FECHA</th>
+                            <th>HORA</th>
+                            <th>ESTADO</th>
+                            <th>ACCIONES</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tablaCitas">
+                        <tr>
+                            <td colspan="6">
+                                Cargando reservaciones...
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+        </section>
+
+        <!-- PIE DE PÁGINA -->
+        <footer class="luxury-footer">
+            <span>© 2026 NOBLE SOCIETY</span>
+            <span>CRAFTED FOR EXCELLENCE</span>
+        </footer>
+
+    </main>
 </div>
-<div class="booking-actions"><button class="booking-btn" id="guardarCitaBtn" type="submit">+ AGENDAR CITA</button><button class="booking-btn booking-secondary" id="cancelarEdicion" type="button" hidden>CANCELAR EDICIÓN</button></div>
-<p id="mensajeCita" class="booking-message" role="status"></p>
-<p class="booking-hint">Para reservar, primero debes tener al menos un cliente y un servicio registrados.</p>
-</form>
-</section>
-<div class="section-heading"><div><span class="eyebrow">DIRECTORIO DE RESERVAS</span><h2>Citas registradas</h2></div><span class="data-status" id="contadorCitas">Cargando...</span></div>
-<section class="booking-panel"><input class="booking-search" id="buscarCita" type="search" placeholder="Buscar cliente, servicio, fecha o estado..." aria-label="Buscar reservaciones"><div class="booking-table-wrap"><table class="booking-table"><thead><tr><th>CLIENTE</th><th>SERVICIO</th><th>FECHA</th><th>HORA</th><th>ESTADO</th><th>ACCIONES</th></tr></thead><tbody id="tablaCitas"><tr><td colspan="6">Cargando reservaciones...</td></tr></tbody></table></div></section>
-<footer class="luxury-footer"><span>© 2026 NOBLE SOCIETY</span><span>CRAFTED FOR EXCELLENCE</span></footer>
-</main></div>
+
 <script>
-const API = 'http://localhost:3000/api';
-let clientes = [], servicios = [], citas = [];
-const $ = id => document.getElementById(id);
-const form = $('formCita');
-function mensaje(texto, tipo = '') { $('mensajeCita').textContent = texto; $('mensajeCita').className = 'booking-message ' + tipo; }
-async function consultar(ruta, opciones) {
-    const respuesta = await fetch(`${API}/${ruta}`, opciones);
-    if (!respuesta.ok) {
-        const detalle = await respuesta.json().catch(() => ({}));
-        throw new Error(detalle.mensaje || detalle.error || `Error ${respuesta.status} al consultar ${ruta}`);
+    // DIRECCIÓN DEL BACKEND
+    const API = "http://localhost:3000/api";
+
+    // LISTAS DE DATOS
+    let clientes = [];
+    let servicios = [];
+    let citas = [];
+
+    // ELEMENTOS PRINCIPALES
+    const formulario = document.getElementById("formCita");
+    const tabla = document.getElementById("tablaCitas");
+    const boton = document.getElementById("guardarCitaBtn");
+    const idCampo = document.getElementById("citaEditando");
+
+    // MOSTRAR MENSAJES
+    function notificar(texto, tipo = "") {
+        const mensaje = document.getElementById("mensajeCita");
+        mensaje.textContent = texto;
+        mensaje.className = "booking-message " + tipo;
     }
-    if (respuesta.status === 204) return {};
-    return respuesta.json().catch(() => ({}));
-}
-function llenarSelector(id, elementos, etiqueta) {
-    const selector = $(id);
-    selector.replaceChildren();
-    const inicial = document.createElement('option');
-    inicial.value = '';
-    inicial.textContent = elementos.length ? `Seleccionar ${etiqueta}` : `No hay ${etiqueta}s registrados`;
-    selector.append(inicial);
-    elementos.forEach(item => {
-        const opcion = document.createElement('option');
-        opcion.value = String(item.id);
-        opcion.textContent = etiqueta === 'servicio' ? `${item.nombre} — $${Number(item.precio || 0).toLocaleString('es-CO')}` : item.nombre;
-        selector.append(opcion);
-    });
-}
-async function cargarCatalogos() {
-    const resultados = await Promise.allSettled([consultar('clientes'), consultar('servicios')]);
-    if (resultados[0].status === 'fulfilled') {
-        clientes = resultados[0].value.data || [];
-        llenarSelector('clienteCita', clientes, 'cliente');
-    } else { mensaje('No se pudieron cargar los clientes.', 'error'); }
-    if (resultados[1].status === 'fulfilled') {
-        servicios = resultados[1].value.data || [];
-        llenarSelector('servicioCita', servicios, 'servicio');
-    } else { mensaje('No se pudieron cargar los servicios. Revisa que el backend esté activo.', 'error'); }
-}
-function fechaVisible(valor) {
-    if (!valor) return '—';
-    const texto = String(valor);
-    const iso = texto.match(/^(\d{4})-(\d{2})-(\d{2})/);
-    return iso ? `${iso[3]}/${iso[2]}/${iso[1]}` : texto;
-}
-function fechaInput(valor) {
-    if (!valor) return '';
-    return String(valor).slice(0, 10);
-}
-function horaInput(valor) { return String(valor || '').slice(0, 5); }
-function nombrePorId(lista, id) {
-    const encontrado = lista.find(item => String(item.id) === String(id));
-    return encontrado ? encontrado.nombre : `#${id ?? '—'}`;
-}
-function pintarCitas() {
-    const termino = $('buscarCita').value.toLowerCase().trim();
-    const filtradas = citas.filter(c => {
-        const cliente = c.cliente_nombre || nombrePorId(clientes, c.cliente_id);
-        const servicio = c.servicio_nombre || nombrePorId(servicios, c.servicio_id);
-        return [cliente, servicio, fechaVisible(c.fecha), c.estado].some(v => String(v || '').toLowerCase().includes(termino));
-    });
-    const cuerpo = $('tablaCitas'); cuerpo.replaceChildren();
-    if (!filtradas.length) {
-        const fila = cuerpo.insertRow(), celda = fila.insertCell();
-        celda.colSpan = 6; celda.textContent = 'No se encontraron reservaciones.';
-        return;
+
+    // CONSULTAR UNA LISTA DEL BACKEND
+    async function consultarLista(ruta) {
+        const respuesta = await fetch(API + "/" + ruta);
+
+        if (!respuesta.ok) {
+            throw new Error("No se pudieron consultar los datos de " + ruta);
+        }
+
+        const resultado = await respuesta.json();
+
+        if (!Array.isArray(resultado.data)) {
+            throw new Error("La API no devolvió una lista válida.");
+        }
+
+        return resultado.data;
     }
-    filtradas.forEach(c => {
-        const fila = cuerpo.insertRow();
-        const datos = [c.cliente_nombre || nombrePorId(clientes, c.cliente_id), c.servicio_nombre || nombrePorId(servicios, c.servicio_id), fechaVisible(c.fecha), horaInput(c.hora), c.estado || 'programada'];
-        datos.forEach((valor, i) => {
-            const celda = fila.insertCell(); celda.textContent = valor;
-            if (i === 4) celda.className = 'booking-status';
+
+    // LLENAR LOS SELECTORES DE CLIENTES Y SERVICIOS
+    function llenarSelector(id, lista, tipo) {
+        const selector = document.getElementById(id);
+        selector.innerHTML = "";
+
+        const inicial = document.createElement("option");
+        inicial.value = "";
+        inicial.textContent = "Seleccionar " + tipo;
+        selector.append(inicial);
+
+        lista.forEach(item => {
+            const opcion = document.createElement("option");
+            opcion.value = item.id;
+
+            if (tipo === "servicio") {
+                opcion.textContent = item.nombre + " - $ " +
+                    Number(item.precio || 0).toLocaleString("es-CO");
+            } else {
+                opcion.textContent = item.nombre;
+            }
+
+            selector.append(opcion);
         });
-        const acciones = fila.insertCell();
-        const editar = document.createElement('button'); editar.type = 'button'; editar.className = 'booking-small-btn'; editar.textContent = 'Editar'; editar.addEventListener('click', () => editarCita(c.id));
-        const eliminar = document.createElement('button'); eliminar.type = 'button'; eliminar.className = 'booking-small-btn danger'; eliminar.textContent = 'Eliminar'; eliminar.addEventListener('click', () => eliminarCita(c.id));
-        acciones.append(editar, eliminar);
-    });
-}
-async function cargarCitas() {
-    try {
-        const resultado = await consultar('citas');
-        if (!Array.isArray(resultado.data)) throw new Error('Formato de respuesta inesperado.');
-        citas = resultado.data;
-        $('contadorCitas').textContent = `${resultado.total ?? citas.length} reservaciones`;
-        pintarCitas();
-    } catch (error) {
-        $('contadorCitas').textContent = 'Sin conexión';
-        const cuerpo = $('tablaCitas'); cuerpo.replaceChildren();
-        const celda = cuerpo.insertRow().insertCell(); celda.colSpan = 6; celda.textContent = 'No se pudieron cargar las reservaciones.';
-        mensaje(error.message, 'error');
     }
-}
-function limpiarFormulario() {
-    form.reset(); $('citaEditando').value = '';
-    $('tituloFormulario').textContent = 'Nueva reservación';
-    $('guardarCitaBtn').textContent = '+ AGENDAR CITA';
-    $('cancelarEdicion').hidden = true;
-}
-function editarCita(id) {
-    const cita = citas.find(c => String(c.id) === String(id));
-    if (!cita) return;
-    $('citaEditando').value = cita.id;
-    $('clienteCita').value = String(cita.cliente_id);
-    $('servicioCita').value = String(cita.servicio_id);
-    $('fechaCita').value = fechaInput(cita.fecha);
-    $('horaCita').value = horaInput(cita.hora);
-    $('estadoCita').value = cita.estado || 'programada';
-    $('observacionesCita').value = cita.observaciones || '';
-    $('tituloFormulario').textContent = 'Editar reservación';
-    $('guardarCitaBtn').textContent = 'GUARDAR CAMBIOS';
-    $('cancelarEdicion').hidden = false;
-    mensaje('Editando reservación seleccionada.');
-    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
-}
-async function eliminarCita(id) {
-    if (!confirm('¿Eliminar esta reservación de forma permanente?')) return;
-    try {
-        await consultar(`citas/${encodeURIComponent(id)}`, { method: 'DELETE' });
-        if ($('citaEditando').value === String(id)) limpiarFormulario();
-        await cargarCitas(); mensaje('Reservación eliminada correctamente.', 'success');
-    } catch (error) { mensaje(error.message, 'error'); }
-}
-form.addEventListener('submit', async evento => {
-    evento.preventDefault();
-    const id = $('citaEditando').value;
-    const datos = {
-        cliente_id: Number($('clienteCita').value),
-        servicio_id: Number($('servicioCita').value),
-        fecha: $('fechaCita').value,
-        hora: $('horaCita').value,
-        estado: $('estadoCita').value,
-        observaciones: $('observacionesCita').value.trim()
-    };
-    if (!datos.cliente_id || !datos.servicio_id || !datos.fecha || !datos.hora) {
-        mensaje('Completa cliente, servicio, fecha y hora.', 'error'); return;
+
+    // CARGAR CLIENTES Y SERVICIOS
+    async function cargarCatalogos() {
+        try {
+            clientes = await consultarLista("clientes");
+            servicios = await consultarLista("servicios");
+
+            llenarSelector("clienteCita", clientes, "cliente");
+            llenarSelector("servicioCita", servicios, "servicio");
+
+        } catch (error) {
+            notificar(error.message, "error");
+        }
     }
-    const boton = $('guardarCitaBtn'); boton.disabled = true; boton.textContent = 'GUARDANDO...';
-    try {
-        await consultar(id ? `citas/${encodeURIComponent(id)}` : 'citas', {
-            method: id ? 'PUT' : 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(datos)
+
+    // BUSCAR EL NOMBRE DE UN CLIENTE O SERVICIO
+    function buscarNombre(lista, id) {
+        const encontrado = lista.find(item => item.id == id);
+
+        if (encontrado) {
+            return encontrado.nombre;
+        }
+
+        return "ID " + id;
+    }
+
+    // MOSTRAR FECHAS EN FORMATO COLOMBIANO
+    function mostrarFecha(valor) {
+        if (!valor) return "—";
+
+        const fecha = String(valor).slice(0, 10);
+        const partes = fecha.split("-");
+
+        if (partes.length === 3) {
+            return partes[2] + "/" + partes[1] + "/" + partes[0];
+        }
+
+        return fecha;
+    }
+
+    // CONTAR CITAS POR ESTADO
+    function contarEstado(estado) {
+        return citas.filter(cita => cita.estado === estado).length;
+    }
+
+    // ACTUALIZAR ESTADÍSTICAS
+    function actualizarEstadisticas() {
+        document.getElementById("statTotal").textContent =
+            citas.length;
+
+        document.getElementById("statProgramadas").textContent =
+            contarEstado("programada");
+
+        document.getElementById("statConfirmadas").textContent =
+            contarEstado("confirmada");
+
+        document.getElementById("statAtendidas").textContent =
+            contarEstado("atendida");
+    }
+
+    // MOSTRAR LAS CITAS EN LA TABLA
+    function mostrarCitas() {
+        const busqueda = document.getElementById("buscarCita")
+            .value.toLowerCase().trim();
+
+        const estado = document.getElementById("filtrarEstado").value;
+
+        const filtradas = citas.filter(cita => {
+            const cliente = cita.cliente_nombre ||
+                buscarNombre(clientes, cita.cliente_id);
+
+            const servicio = cita.servicio_nombre ||
+                buscarNombre(servicios, cita.servicio_id);
+
+            const texto = (
+                cliente + " " +
+                servicio + " " +
+                mostrarFecha(cita.fecha) + " " +
+                String(cita.hora || "") + " " +
+                String(cita.estado || "")
+            ).toLowerCase();
+
+            const coincideBusqueda = texto.includes(busqueda);
+
+            const coincideEstado =
+                estado === "" || cita.estado === estado;
+
+            return coincideBusqueda && coincideEstado;
         });
-        limpiarFormulario();
+
+        tabla.innerHTML = "";
+
+        if (filtradas.length === 0) {
+            const celda = tabla.insertRow().insertCell();
+            celda.colSpan = 6;
+            celda.textContent = "No se encontraron reservaciones.";
+            return;
+        }
+
+        filtradas.forEach(cita => {
+            const fila = tabla.insertRow();
+
+            const cliente = cita.cliente_nombre ||
+                buscarNombre(clientes, cita.cliente_id);
+
+            const servicio = cita.servicio_nombre ||
+                buscarNombre(servicios, cita.servicio_id);
+
+            // DATOS DE LA CITA
+            fila.insertCell().textContent = cliente;
+            fila.insertCell().textContent = servicio;
+            fila.insertCell().textContent = mostrarFecha(cita.fecha);
+
+            fila.insertCell().textContent =
+                String(cita.hora || "").slice(0, 5);
+
+            // ESTADO CON COLOR
+            const celdaEstado = fila.insertCell();
+            const etiqueta = document.createElement("span");
+
+            const estadoCita = cita.estado || "programada";
+
+            etiqueta.className = "booking-status";
+
+            if (["programada", "confirmada", "atendida", "cancelada"]
+                .includes(estadoCita)) {
+                etiqueta.classList.add("status-" + estadoCita);
+            }
+
+            etiqueta.textContent = estadoCita;
+            celdaEstado.append(etiqueta);
+
+            // BOTONES
+            const acciones = fila.insertCell();
+
+            const editar = document.createElement("button");
+            editar.type = "button";
+            editar.className = "booking-edit";
+            editar.textContent = "Editar";
+            editar.onclick = () => editarCita(cita.id);
+
+            const eliminar = document.createElement("button");
+            eliminar.type = "button";
+            eliminar.className = "booking-delete";
+            eliminar.textContent = "Eliminar";
+            eliminar.onclick = () => eliminarCita(cita.id);
+
+            acciones.append(editar, eliminar);
+        });
+    }
+
+    // CONSULTAR LAS CITAS EN MYSQL
+    async function cargarCitas() {
+        try {
+            citas = await consultarLista("citas");
+
+            document.getElementById("contadorCitas").textContent =
+                citas.length + " reservaciones";
+
+            actualizarEstadisticas();
+            mostrarCitas();
+
+        } catch (error) {
+            document.getElementById("contadorCitas").textContent =
+                "Sin conexión";
+
+            tabla.innerHTML = "";
+
+            const celda = tabla.insertRow().insertCell();
+            celda.colSpan = 6;
+            celda.textContent = "No se pudieron cargar las citas.";
+
+            notificar(error.message, "error");
+        }
+    }
+
+    // LIMPIAR FORMULARIO
+    function limpiarFormulario() {
+        formulario.reset();
+        idCampo.value = "";
+
+        document.getElementById("tituloFormulario").textContent =
+            "Nueva reservación";
+
+        boton.textContent = "+ AGENDAR CITA";
+
+        document.getElementById("cancelarEdicion").hidden = true;
+    }
+
+    // EDITAR UNA CITA
+    function editarCita(id) {
+        const cita = citas.find(item => item.id == id);
+
+        if (!cita) return;
+
+        idCampo.value = cita.id;
+
+        document.getElementById("clienteCita").value =
+            cita.cliente_id;
+
+        document.getElementById("servicioCita").value =
+            cita.servicio_id;
+
+        document.getElementById("fechaCita").value =
+            String(cita.fecha || "").slice(0, 10);
+
+        document.getElementById("horaCita").value =
+            String(cita.hora || "").slice(0, 5);
+
+        document.getElementById("estadoCita").value =
+            cita.estado || "programada";
+
+        document.getElementById("observacionesCita").value =
+            cita.observaciones || "";
+
+        document.getElementById("tituloFormulario").textContent =
+            "Editar reservación";
+
+        boton.textContent = "GUARDAR CAMBIOS";
+
+        document.getElementById("cancelarEdicion").hidden = false;
+
+        notificar("Editando reservación seleccionada.");
+
+        formulario.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+    }
+
+    // ELIMINAR UNA CITA
+    async function eliminarCita(id) {
+        const confirmar = confirm(
+            "¿Seguro que deseas eliminar esta reservación?"
+        );
+
+        if (!confirmar) return;
+
+        try {
+            const respuesta = await fetch(
+                API + "/citas/" + id,
+                {
+                    method: "DELETE"
+                }
+            );
+
+            if (!respuesta.ok) {
+                const detalle = await respuesta.json().catch(() => ({}));
+
+                throw new Error(
+                    detalle.mensaje ||
+                    detalle.error ||
+                    "No se pudo eliminar la reservación."
+                );
+            }
+
+            if (idCampo.value == id) {
+                limpiarFormulario();
+            }
+
+            await cargarCitas();
+
+            notificar("Reservación eliminada correctamente.", "success");
+
+        } catch (error) {
+            notificar(error.message, "error");
+        }
+    }
+
+    // REGISTRAR O ACTUALIZAR UNA CITA
+    formulario.addEventListener("submit", async function(evento) {
+        evento.preventDefault();
+
+        const id = idCampo.value;
+
+        const datos = {
+            cliente_id: Number(
+                document.getElementById("clienteCita").value
+            ),
+
+            servicio_id: Number(
+                document.getElementById("servicioCita").value
+            ),
+
+            fecha: document.getElementById("fechaCita").value,
+
+            hora: document.getElementById("horaCita").value,
+
+            estado: document.getElementById("estadoCita").value,
+
+            observaciones: document.getElementById("observacionesCita")
+                .value.trim()
+        };
+
+        // VALIDAR CAMPOS
+        if (
+            !datos.cliente_id ||
+            !datos.servicio_id ||
+            !datos.fecha ||
+            !datos.hora
+        ) {
+            notificar(
+                "Completa cliente, servicio, fecha y hora.",
+                "error"
+            );
+            return;
+        }
+
+        boton.disabled = true;
+        boton.textContent = "GUARDANDO...";
+
+        try {
+            const respuesta = await fetch(
+                id ? API + "/citas/" + id : API + "/citas",
+                {
+                    method: id ? "PUT" : "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(datos)
+                }
+            );
+
+            if (!respuesta.ok) {
+                const detalle = await respuesta.json().catch(() => ({}));
+
+                throw new Error(
+                    detalle.mensaje ||
+                    detalle.error ||
+                    "No se pudo guardar la reservación."
+                );
+            }
+
+            limpiarFormulario();
+
+            await cargarCitas();
+
+            notificar(
+                id
+                    ? "Reservación actualizada correctamente."
+                    : "Reservación registrada correctamente.",
+                "success"
+            );
+
+        } catch (error) {
+            notificar(error.message, "error");
+
+        } finally {
+            boton.disabled = false;
+
+            boton.textContent = idCampo.value
+                ? "GUARDAR CAMBIOS"
+                : "+ AGENDAR CITA";
+        }
+    });
+
+    // CANCELAR EDICIÓN
+    document.getElementById("cancelarEdicion")
+        .addEventListener("click", function() {
+            limpiarFormulario();
+            notificar("Edición cancelada.");
+        });
+
+    // BUSCAR CITAS
+    document.getElementById("buscarCita")
+        .addEventListener("input", mostrarCitas);
+
+    // FILTRAR POR ESTADO
+    document.getElementById("filtrarEstado")
+        .addEventListener("change", mostrarCitas);
+
+    // ACTUALIZAR LISTADO
+    document.getElementById("actualizarCitas")
+        .addEventListener("click", async function() {
+            await cargarCatalogos();
+            await cargarCitas();
+        });
+
+    // CARGAR DATOS AL ABRIR LA PÁGINA
+    async function iniciarPagina() {
+        await cargarCatalogos();
         await cargarCitas();
-        mensaje(id ? 'Reservación actualizada correctamente.' : 'Reservación registrada correctamente.', 'success');
-    } catch (error) { mensaje(error.message, 'error'); }
-    finally { boton.disabled = false; if ($('citaEditando').value === '') boton.textContent = '+ AGENDAR CITA'; else boton.textContent = 'GUARDAR CAMBIOS'; }
-});
-$('cancelarEdicion').addEventListener('click', () => { limpiarFormulario(); mensaje('Edición cancelada.'); });
-$('buscarCita').addEventListener('input', pintarCitas);
-(async () => { await cargarCatalogos(); await cargarCitas(); })();
+    }
+
+    iniciarPagina();
 </script>
+
 </body>
 </html>
+ 

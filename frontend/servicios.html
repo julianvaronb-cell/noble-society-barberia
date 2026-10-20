@@ -1,167 +1,866 @@
+
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Servicios Premium | Noble Society</title>
-  <link rel="stylesheet" href="estilos.css">
-  <style>
-    .service-banner{background:linear-gradient(120deg,#171411,#292015,#131313);border:1px solid #58482e;border-radius:14px;padding:38px 32px;margin:18px 0 30px}
-    .service-banner h2{font-family:Cinzel,Georgia,serif;color:#e6c58b;font-size:clamp(22px,3vw,34px);margin:12px 0}
-    .service-banner p{color:#b9b0a4;font-size:14px}
-    .service-panel{background:#151516;border:1px solid #403528;border-radius:13px;padding:28px;margin-bottom:30px}
-    .service-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
-    .service-field{display:flex;flex-direction:column;gap:9px}
-    .service-field label{font-size:11px;letter-spacing:1.2px;color:#d6ad60;font-weight:700}
-    .service-field input,.service-field textarea,.service-search{box-sizing:border-box;width:100%;background:#0e0e0f;border:1px solid #4a4033;border-radius:8px;padding:14px;color:#f1e9db;font:inherit;outline:none}
-    .service-field input:focus,.service-field textarea:focus,.service-search:focus{border-color:#d6ad60}
-    .service-field textarea{resize:vertical;min-height:82px}
-    .service-full{grid-column:1/-1}
-    .service-buttons{display:flex;gap:12px;flex-wrap:wrap;margin-top:23px}
-    .service-primary,.service-secondary,.service-edit,.service-delete{border-radius:7px;cursor:pointer;font-weight:700;letter-spacing:.5px;width:auto}
-    .service-primary{background:#d6ad60;border:1px solid #d6ad60;color:#111;padding:14px 24px}
-    .service-secondary{background:transparent;border:1px solid #857154;color:#d6ad60;padding:14px 22px}
-    .service-primary:disabled{opacity:.6;cursor:wait}
-    .service-message{min-height:22px;margin:15px 0 0;font-size:13px;color:#c8bba7}
-    .service-message.success{color:#9cdaa9}.service-message.error{color:#ff9e9e}
-    .service-search{margin-bottom:20px}
-    .service-table-wrap{overflow-x:auto}
-    .service-table{width:100%;border-collapse:collapse;text-align:left}
-    .service-table th{font-size:11px;letter-spacing:1px;color:#d6ad60;padding:15px;border-bottom:1px solid #58482e}
-    .service-table td{color:#e1d9ce;padding:16px 15px;border-bottom:1px solid #302a24;font-size:13px}
-    .service-table tr:hover td{background:#211c17}
-    .service-edit,.service-delete{padding:9px 12px;margin:2px;font-size:12px}
-    .service-edit{background:#d6ad60;color:#111;border:1px solid #d6ad60}
-    .service-delete{background:transparent;color:#e99b9b;border:1px solid #865858}
-    .service-empty{color:#b9b0a4!important;text-align:center}
-    @media(max-width:720px){.service-grid{grid-template-columns:1fr}.service-panel{padding:19px}.service-banner{padding:25px 20px}}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Servicios Premium | Noble Society</title>
+
+    <!-- ESTILOS GENERALES DEL PROYECTO -->
+    <link rel="stylesheet" href="estilos.css">
+
+    <style>
+        /* PRESENTACIÓN DEL MÓDULO */
+
+        .service-banner {
+            background: linear-gradient(110deg, #17120e, #302315, #101010);
+            border: 1px solid #6a5330;
+            border-radius: 15px;
+            padding: 35px;
+            margin-bottom: 25px;
+        }
+
+        .service-banner h2 {
+            font-family: Georgia, serif;
+            color: #f0d39b;
+            font-size: 30px;
+            margin: 12px 0;
+        }
+
+        .service-banner p {
+            color: #c5b8a5;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* TARJETAS DE ESTADÍSTICAS */
+
+        .service-stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .service-stat {
+            background: #19191a;
+            border: 1px solid #51402b;
+            border-radius: 12px;
+            padding: 22px;
+        }
+
+        .service-stat span {
+            display: block;
+            color: #ada295;
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+
+        .service-stat strong {
+            display: block;
+            color: #e7c68a;
+            font-family: Georgia, serif;
+            font-size: 28px;
+            margin-top: 12px;
+            overflow-wrap: anywhere;
+        }
+
+        /* FORMULARIO Y TABLA */
+
+        .service-panel {
+            background: #171718;
+            border: 1px solid #403628;
+            border-radius: 15px;
+            padding: 28px;
+            margin-bottom: 30px;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .service-field {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .service-field label {
+            color: #d6ad60;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .service-field input,
+        .service-field textarea,
+        .service-search {
+            width: 100%;
+            box-sizing: border-box;
+            background: #0e0e0f;
+            color: #f5eee4;
+            border: 1px solid #514532;
+            border-radius: 8px;
+            padding: 14px;
+            font: inherit;
+            outline: none;
+        }
+
+        .service-field input:focus,
+        .service-field textarea:focus,
+        .service-search:focus {
+            border-color: #d6ad60;
+        }
+
+        .service-field textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .service-full {
+            grid-column: 1 / -1;
+        }
+
+        /* BOTONES */
+
+        .service-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        .service-save,
+        .service-cancel {
+            width: auto;
+            padding: 13px 20px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .service-save {
+            background: #d6ad60;
+            color: #15110a;
+            border: 1px solid #d6ad60;
+        }
+
+        .service-save:hover {
+            background: #f0d39b;
+        }
+
+        .service-save:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
+
+        .service-cancel {
+            background: transparent;
+            color: #d6ad60;
+            border: 1px solid #d6ad60;
+        }
+
+        .service-message {
+            min-height: 18px;
+            margin-top: 15px;
+            color: #d6ad60;
+            font-size: 13px;
+        }
+
+        .service-message.success {
+            color: #96dfa6;
+        }
+
+        .service-message.error {
+            color: #ff9999;
+        }
+
+        /* BUSCADOR */
+
+        .service-search {
+            margin-bottom: 20px;
+        }
+
+        /* TABLA DE SERVICIOS */
+
+        .service-table-wrap {
+            overflow-x: auto;
+        }
+
+        .service-table {
+            width: 100%;
+            min-width: 750px;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .service-table th {
+            color: #d6ad60;
+            font-size: 11px;
+            letter-spacing: 1px;
+            padding: 15px 12px;
+            border-bottom: 1px solid #55452e;
+        }
+
+        .service-table td {
+            color: #e3dbcf;
+            font-size: 13px;
+            padding: 15px 12px;
+            border-bottom: 1px solid #302c27;
+        }
+
+        .service-table tbody tr:hover {
+            background: #211d17;
+        }
+
+        /* ETIQUETA DEL PRECIO */
+
+        .service-price {
+            color: #e7c68a;
+            font-weight: bold;
+        }
+
+        /* ACCIONES DE LA TABLA */
+
+        .service-edit,
+        .service-delete {
+            width: auto;
+            padding: 8px 12px;
+            margin: 2px;
+            border-radius: 6px;
+            background: transparent;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .service-edit {
+            color: #d6ad60;
+            border: 1px solid #d6ad60;
+        }
+
+        .service-delete {
+            color: #ef9999;
+            border: 1px solid #875252;
+        }
+
+        /* DISEÑO PARA CELULARES */
+
+        @media (max-width: 900px) {
+            .service-stats {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 720px) {
+            .service-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .service-full {
+                grid-column: auto;
+            }
+
+            .service-panel {
+                padding: 18px;
+            }
+
+            .service-banner {
+                padding: 25px 20px;
+            }
+
+            .service-banner h2 {
+                font-size: 25px;
+            }
+
+            .service-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
+
 <body class="dashboard-body">
+
 <div class="luxury-layout">
-  <aside class="luxury-sidebar">
-    <div class="luxury-brand"><div class="brand-monogram">NS</div><h2>NOBLE SOCIETY</h2><span>THE GENTLEMEN'S CLUB</span></div>
-    <p class="sidebar-label">ADMINISTRACIÓN</p>
-    <nav class="luxury-nav">
-      <a href="dashboard.html">◈ &nbsp; Panel principal</a>
-      <a href="clientes.html">♙ &nbsp; Clientes</a>
-      <a href="citas.html">◷ &nbsp; Reservaciones</a>
-      <a href="servicios.html" class="active">✂ &nbsp; Servicios</a>
-      <a href="inventario.html">▣ &nbsp; Inventario</a>
-      <a href="reportes.html">▥ &nbsp; Reportes</a>
-    </nav>
-    <div class="sidebar-footer"><div class="gold-line"></div><p>EXCELLENCE IS A STANDARD</p><a href="index.html">↪ &nbsp; Salir del panel</a></div>
-  </aside>
-  <main class="luxury-main">
-    <div class="luxury-topbar">
-      <div><span class="eyebrow">NOBLE SOCIETY / SERVICIOS</span><h1>Servicios Premium<span class="gold-dot">.</span></h1><p>El detalle define la distinción.</p></div>
-      <div class="admin-profile"><div class="profile-avatar">NS</div><div><strong>Administración</strong><small>Catálogo de servicios</small></div></div>
-    </div>
-    <section class="service-banner"><span class="eyebrow">THE ART OF GROOMING</span><h2>Experiencias hechas a medida.</h2><p>Diseña y administra los servicios que hacen única a Noble Society.</p></section>
-    <div class="section-heading"><div><span class="eyebrow">GESTIÓN DEL CATÁLOGO</span><h2 id="tituloFormulario">Registrar servicio</h2></div></div>
-    <section class="service-panel">
-      <form id="formServicio">
-        <input type="hidden" id="servicioEditando">
-        <div class="service-grid">
-          <div class="service-field"><label for="nombreServicio">NOMBRE DEL SERVICIO *</label><input id="nombreServicio" type="text" maxlength="120" placeholder="Ej. Corte clásico" required></div>
-          <div class="service-field"><label for="precioServicio">PRECIO EN COP *</label><input id="precioServicio" type="number" min="0" step="0.01" placeholder="Ej. 25000" required></div>
-          <div class="service-field"><label for="duracionServicio">DURACIÓN (MINUTOS) *</label><input id="duracionServicio" type="number" min="1" step="1" value="30" required></div>
-          <div class="service-field service-full"><label for="descripcionServicio">DESCRIPCIÓN</label><textarea id="descripcionServicio" maxlength="255" placeholder="Describe la experiencia que recibirá el cliente..."></textarea></div>
+
+    <!-- MENÚ LATERAL -->
+    <aside class="luxury-sidebar">
+
+        <div class="luxury-brand">
+            <div class="brand-monogram">NS</div>
+            <h2>NOBLE SOCIETY</h2>
+            <span>THE GENTLEMEN'S CLUB</span>
         </div>
-        <div class="service-buttons"><button type="submit" id="guardarServicioBtn" class="service-primary">+ REGISTRAR SERVICIO</button><button type="button" id="cancelarEdicion" class="service-secondary" hidden>CANCELAR EDICIÓN</button></div>
-        <p id="mensajeServicio" class="service-message" role="status"></p>
-      </form>
-    </section>
-    <div class="section-heading"><div><span class="eyebrow">CATÁLOGO EXCLUSIVO</span><h2>Servicios disponibles</h2></div><span id="contadorServicios" class="data-status">Cargando...</span></div>
-    <section class="service-panel">
-      <input type="search" class="service-search" id="buscarServicio" placeholder="Buscar servicio por nombre o descripción..." aria-label="Buscar servicios">
-      <div class="service-table-wrap"><table class="service-table"><thead><tr><th>SERVICIO</th><th>DESCRIPCIÓN</th><th>PRECIO</th><th>DURACIÓN</th><th>ACCIONES</th></tr></thead><tbody id="tablaServicios"><tr><td colspan="5" class="service-empty">Cargando servicios...</td></tr></tbody></table></div>
-    </section>
-    <footer class="luxury-footer"><span>© 2026 NOBLE SOCIETY</span><span>CRAFTED FOR EXCELLENCE</span></footer>
-  </main>
+
+        <p class="sidebar-label">ADMINISTRACIÓN</p>
+
+        <nav class="luxury-nav">
+            <a href="dashboard.html">◈ &nbsp; Panel principal</a>
+            <a href="clientes.html">♙ &nbsp; Clientes</a>
+            <a href="citas.html">◷ &nbsp; Reservaciones</a>
+            <a href="servicios.html" class="active">✂ &nbsp; Servicios</a>
+            <a href="inventario.html">▣ &nbsp; Inventario</a>
+            <a href="reportes.html">▥ &nbsp; Reportes</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="gold-line"></div>
+            <p>EXCELLENCE IS A STANDARD</p>
+            <a href="index.html">↪ &nbsp; Salir del panel</a>
+        </div>
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="luxury-main">
+
+        <!-- ENCABEZADO -->
+        <div class="luxury-topbar">
+            <div>
+                <span class="eyebrow">NOBLE SOCIETY / SERVICIOS</span>
+                <h1>Servicios Premium<span class="gold-dot">.</span></h1>
+                <p>El detalle define la distinción.</p>
+            </div>
+
+            <div class="admin-profile">
+                <div class="profile-avatar">NS</div>
+                <div>
+                    <strong>Administración</strong>
+                    <small>Catálogo de servicios</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- PRESENTACIÓN -->
+        <section class="service-banner">
+            <span class="eyebrow">THE ART OF GROOMING</span>
+            <h2>Experiencias hechas a medida.</h2>
+            <p>
+                Diseña y administra los servicios que hacen única
+                a Noble Society.
+            </p>
+        </section>
+
+        <!-- ESTADÍSTICAS -->
+        <section class="service-stats">
+
+            <article class="service-stat">
+                <span>SERVICIOS REGISTRADOS</span>
+                <strong id="totalServicios">0</strong>
+            </article>
+
+            <article class="service-stat">
+                <span>PRECIO PROMEDIO</span>
+                <strong id="precioPromedio">$ 0</strong>
+            </article>
+
+            <article class="service-stat">
+                <span>DURACIÓN PROMEDIO</span>
+                <strong id="duracionPromedio">0 min</strong>
+            </article>
+
+        </section>
+
+        <!-- FORMULARIO -->
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">GESTIÓN DEL CATÁLOGO</span>
+                <h2 id="tituloFormulario">Registrar servicio</h2>
+            </div>
+        </div>
+
+        <section class="service-panel">
+
+            <form id="formServicio">
+
+                <input type="hidden" id="servicioEditando">
+
+                <div class="service-grid">
+
+                    <div class="service-field">
+                        <label for="nombreServicio">NOMBRE DEL SERVICIO *</label>
+                        <input
+                            id="nombreServicio"
+                            type="text"
+                            maxlength="120"
+                            placeholder="Ej. Corte clásico"
+                            required
+                        >
+                    </div>
+
+                    <div class="service-field">
+                        <label for="precioServicio">PRECIO EN COP *</label>
+                        <input
+                            id="precioServicio"
+                            type="number"
+                            min="0"
+                            step="0.01"
+                            placeholder="Ej. 25000"
+                            required
+                        >
+                    </div>
+
+                    <div class="service-field">
+                        <label for="duracionServicio">DURACIÓN (MINUTOS) *</label>
+                        <input
+                            id="duracionServicio"
+                            type="number"
+                            min="1"
+                            step="1"
+                            value="30"
+                            required
+                        >
+                    </div>
+
+                    <div class="service-field service-full">
+                        <label for="descripcionServicio">DESCRIPCIÓN</label>
+                        <textarea
+                            id="descripcionServicio"
+                            maxlength="255"
+                            placeholder="Describe la experiencia que recibirá el cliente..."
+                        ></textarea>
+                    </div>
+
+                </div>
+
+                <div class="service-buttons">
+
+                    <button
+                        id="guardarServicioBtn"
+                        class="service-save"
+                        type="submit"
+                    >
+                        + REGISTRAR SERVICIO
+                    </button>
+
+                    <button
+                        id="cancelarEdicion"
+                        class="service-cancel"
+                        type="button"
+                        hidden
+                    >
+                        CANCELAR EDICIÓN
+                    </button>
+
+                </div>
+
+                <p
+                    id="mensajeServicio"
+                    class="service-message"
+                    role="status"
+                ></p>
+
+            </form>
+        </section>
+
+        <!-- LISTADO DE SERVICIOS -->
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">CATÁLOGO EXCLUSIVO</span>
+                <h2>Servicios disponibles</h2>
+            </div>
+
+            <span id="contadorServicios" class="data-status">
+                Cargando...
+            </span>
+        </div>
+
+        <section class="service-panel">
+
+            <input
+                type="search"
+                class="service-search"
+                id="buscarServicio"
+                placeholder="Buscar servicio por nombre o descripción..."
+                aria-label="Buscar servicios"
+            >
+
+            <div class="service-table-wrap">
+                <table class="service-table">
+
+                    <thead>
+                        <tr>
+                            <th>SERVICIO</th>
+                            <th>DESCRIPCIÓN</th>
+                            <th>PRECIO</th>
+                            <th>DURACIÓN</th>
+                            <th>ACCIONES</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tablaServicios">
+                        <tr>
+                            <td colspan="5">Cargando servicios...</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+
+        </section>
+
+        <!-- PIE DE PÁGINA -->
+        <footer class="luxury-footer">
+            <span>© 2026 NOBLE SOCIETY</span>
+            <span>CRAFTED FOR EXCELLENCE</span>
+        </footer>
+
+    </main>
 </div>
+
 <script>
-'use strict';
-const API_SERVICIOS = 'http://localhost:3000/api/servicios';
-let servicios = [];
-const formulario = document.getElementById('formServicio');
-const tabla = document.getElementById('tablaServicios');
-const mensaje = document.getElementById('mensajeServicio');
-const buscador = document.getElementById('buscarServicio');
-const botonGuardar = document.getElementById('guardarServicioBtn');
-const botonCancelar = document.getElementById('cancelarEdicion');
-const campoId = document.getElementById('servicioEditando');
-const moneda = new Intl.NumberFormat('es-CO', {style:'currency',currency:'COP',maximumFractionDigits:0});
-function notificar(texto, tipo='') {mensaje.textContent=texto;mensaje.className='service-message '+tipo;}
-function limpiarFormulario(){formulario.reset();campoId.value='';botonGuardar.textContent='+ REGISTRAR SERVICIO';botonCancelar.hidden=true;document.getElementById('tituloFormulario').textContent='Registrar servicio';}
-function pintarServicios(){
-  const filtro=buscador.value.toLocaleLowerCase('es-CO').trim();
-  const visibles=servicios.filter(s=>[s.nombre,s.descripcion].some(v=>String(v??'').toLocaleLowerCase('es-CO').includes(filtro)));
-  tabla.replaceChildren();
-  if(!visibles.length){const fila=tabla.insertRow();const celda=fila.insertCell();celda.colSpan=5;celda.className='service-empty';celda.textContent='No se encontraron servicios.';return;}
-  for(const servicio of visibles){
-    const fila=tabla.insertRow();
-    [servicio.nombre??'—',servicio.descripcion??'—',moneda.format(Number(servicio.precio)||0),`${servicio.duracion_minutos??30} min`].forEach(valor=>{const celda=fila.insertCell();celda.textContent=valor;});
-    const acciones=fila.insertCell();
-    const editar=document.createElement('button');editar.type='button';editar.className='service-edit';editar.textContent='Editar';editar.addEventListener('click',()=>editarServicio(servicio.id));
-    const eliminar=document.createElement('button');eliminar.type='button';eliminar.className='service-delete';eliminar.textContent='Eliminar';eliminar.addEventListener('click',()=>eliminarServicio(servicio.id));
-    acciones.append(editar,eliminar);
-  }
-}
-async function cargarServicios(){
-  try{
-    const respuesta=await fetch(API_SERVICIOS);
-    if(!respuesta.ok)throw new Error('No fue posible consultar los servicios.');
-    const resultado=await respuesta.json();
-    if(!Array.isArray(resultado.data))throw new Error('La API devolvió un formato inesperado.');
-    servicios=resultado.data;
-    document.getElementById('contadorServicios').textContent=`${servicios.length} servicios registrados`;
-    pintarServicios();
-    return true;
-  }catch(error){console.error(error);document.getElementById('contadorServicios').textContent='Sin conexión';tabla.replaceChildren();const fila=tabla.insertRow();const celda=fila.insertCell();celda.colSpan=5;celda.className='service-empty';celda.textContent='No se pudieron cargar los servicios.';notificar(error.message,'error');return false;}
-}
-function editarServicio(id){
-  const s=servicios.find(item=>String(item.id)===String(id));if(!s)return;
-  campoId.value=s.id;
-  document.getElementById('nombreServicio').value=s.nombre??'';
-  document.getElementById('descripcionServicio').value=s.descripcion??'';
-  document.getElementById('precioServicio').value=s.precio??0;
-  document.getElementById('duracionServicio').value=s.duracion_minutos??30;
-  botonGuardar.textContent='GUARDAR CAMBIOS';botonCancelar.hidden=false;
-  document.getElementById('tituloFormulario').textContent='Editar servicio';
-  notificar('Modifica los datos y guarda los cambios.');formulario.scrollIntoView({behavior:'smooth',block:'center'});
-}
-async function eliminarServicio(id){
-  if(!confirm('¿Eliminar este servicio? Esta acción no se puede deshacer.'))return;
-  try{
-    const respuesta=await fetch(`${API_SERVICIOS}/${encodeURIComponent(id)}`,{method:'DELETE'});
-    if(!respuesta.ok){const detalle=await respuesta.json().catch(()=>({}));throw new Error(detalle.mensaje||detalle.error||'No se pudo eliminar el servicio. Puede tener citas asociadas.');}
-    if(String(campoId.value)===String(id))limpiarFormulario();
-    const actualizado=await cargarServicios();if(actualizado)notificar('Servicio eliminado correctamente.','success');
-  }catch(error){notificar(error.message,'error');}
-}
-formulario.addEventListener('submit',async evento=>{
-  evento.preventDefault();
-  const id=campoId.value;
-  const nombre=document.getElementById('nombreServicio').value.trim();
-  const descripcion=document.getElementById('descripcionServicio').value.trim();
-  const precio=Number(document.getElementById('precioServicio').value);
-  const duracion_minutos=Number(document.getElementById('duracionServicio').value);
-  if(!nombre||!Number.isFinite(precio)||precio<0||!Number.isInteger(duracion_minutos)||duracion_minutos<1){notificar('Revisa el nombre, precio y duración del servicio.','error');return;}
-  botonGuardar.disabled=true;botonGuardar.textContent='GUARDANDO...';
-  try{
-    const respuesta=await fetch(id?`${API_SERVICIOS}/${encodeURIComponent(id)}`:API_SERVICIOS,{
-      method:id?'PUT':'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nombre,descripcion,precio,duracion_minutos})
+    // DIRECCIÓN DEL BACKEND
+    const API_SERVICIOS = "http://localhost:3000/api/servicios";
+
+    // VARIABLES PRINCIPALES
+    let servicios = [];
+
+    const formulario = document.getElementById("formServicio");
+    const tabla = document.getElementById("tablaServicios");
+    const mensaje = document.getElementById("mensajeServicio");
+    const buscador = document.getElementById("buscarServicio");
+    const boton = document.getElementById("guardarServicioBtn");
+    const cancelarBtn = document.getElementById("cancelarEdicion");
+    const idCampo = document.getElementById("servicioEditando");
+
+    // MOSTRAR PRECIOS EN PESOS COLOMBIANOS
+    function dinero(valor) {
+        return "$ " + Number(valor || 0).toLocaleString("es-CO");
+    }
+
+    // MOSTRAR MENSAJES
+    function notificar(texto, tipo = "") {
+        mensaje.textContent = texto;
+        mensaje.className = "service-message " + tipo;
+    }
+
+    // CALCULAR LAS ESTADÍSTICAS
+    function actualizarEstadisticas() {
+        let sumaPrecios = 0;
+        let sumaDuraciones = 0;
+
+        servicios.forEach(servicio => {
+            sumaPrecios += Number(servicio.precio || 0);
+            sumaDuraciones += Number(servicio.duracion_minutos || 0);
+        });
+
+        const cantidad = servicios.length;
+
+        const precioPromedio = cantidad > 0
+            ? sumaPrecios / cantidad
+            : 0;
+
+        const duracionPromedio = cantidad > 0
+            ? sumaDuraciones / cantidad
+            : 0;
+
+        document.getElementById("totalServicios").textContent =
+            cantidad;
+
+        document.getElementById("precioPromedio").textContent =
+            dinero(Math.round(precioPromedio));
+
+        document.getElementById("duracionPromedio").textContent =
+            Math.round(duracionPromedio) + " min";
+    }
+
+    // MOSTRAR LOS SERVICIOS EN LA TABLA
+    function mostrarServicios() {
+        const busqueda = buscador.value.toLowerCase().trim();
+
+        const filtrados = servicios.filter(servicio => {
+            const texto = (
+                (servicio.nombre || "") + " " +
+                (servicio.descripcion || "")
+            ).toLowerCase();
+
+            return texto.includes(busqueda);
+        });
+
+        tabla.innerHTML = "";
+
+        if (filtrados.length === 0) {
+            const celda = tabla.insertRow().insertCell();
+            celda.colSpan = 5;
+            celda.textContent = "No se encontraron servicios.";
+            return;
+        }
+
+        filtrados.forEach(servicio => {
+            const fila = tabla.insertRow();
+
+            // NOMBRE
+            fila.insertCell().textContent = servicio.nombre || "—";
+
+            // DESCRIPCIÓN
+            fila.insertCell().textContent = servicio.descripcion || "—";
+
+            // PRECIO
+            const celdaPrecio = fila.insertCell();
+            const precio = document.createElement("span");
+
+            precio.className = "service-price";
+            precio.textContent = dinero(servicio.precio);
+
+            celdaPrecio.append(precio);
+
+            // DURACIÓN
+            fila.insertCell().textContent =
+                (servicio.duracion_minutos || 30) + " min";
+
+            // BOTONES DE ACCIONES
+            const acciones = fila.insertCell();
+
+            const editar = document.createElement("button");
+            editar.type = "button";
+            editar.className = "service-edit";
+            editar.textContent = "Editar";
+            editar.onclick = () => editarServicio(servicio.id);
+
+            const eliminar = document.createElement("button");
+            eliminar.type = "button";
+            eliminar.className = "service-delete";
+            eliminar.textContent = "Eliminar";
+            eliminar.onclick = () => eliminarServicio(servicio.id);
+
+            acciones.append(editar, eliminar);
+        });
+    }
+
+    // CONSULTAR SERVICIOS EN MYSQL
+    async function cargarServicios() {
+        try {
+            const respuesta = await fetch(API_SERVICIOS);
+
+            if (!respuesta.ok) {
+                throw new Error("No se pudieron consultar los servicios.");
+            }
+
+            const resultado = await respuesta.json();
+
+            if (!Array.isArray(resultado.data)) {
+                throw new Error("La API no devolvió una lista de servicios.");
+            }
+
+            servicios = resultado.data;
+
+            document.getElementById("contadorServicios").textContent =
+                servicios.length + " servicios registrados";
+
+            actualizarEstadisticas();
+            mostrarServicios();
+
+            return true;
+
+        } catch (error) {
+            notificar(error.message, "error");
+
+            document.getElementById("contadorServicios").textContent =
+                "Sin conexión";
+
+            tabla.innerHTML = "";
+
+            const celda = tabla.insertRow().insertCell();
+            celda.colSpan = 5;
+            celda.textContent = "No se pudieron cargar los servicios.";
+
+            return false;
+        }
+    }
+
+    // CARGAR LOS DATOS DE UN SERVICIO PARA EDITAR
+    function editarServicio(id) {
+        const servicio = servicios.find(s => s.id == id);
+
+        if (!servicio) return;
+
+        idCampo.value = servicio.id;
+
+        document.getElementById("nombreServicio").value =
+            servicio.nombre || "";
+
+        document.getElementById("descripcionServicio").value =
+            servicio.descripcion || "";
+
+        document.getElementById("precioServicio").value =
+            servicio.precio;
+
+        document.getElementById("duracionServicio").value =
+            servicio.duracion_minutos || 30;
+
+        document.getElementById("tituloFormulario").textContent =
+            "Editar servicio";
+
+        boton.textContent = "GUARDAR CAMBIOS";
+        cancelarBtn.hidden = false;
+
+        notificar("Editando servicio seleccionado.");
+
+        formulario.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+    }
+
+    // LIMPIAR EL FORMULARIO
+    function limpiarFormulario() {
+        formulario.reset();
+        idCampo.value = "";
+
+        document.getElementById("tituloFormulario").textContent =
+            "Registrar servicio";
+
+        boton.textContent = "+ REGISTRAR SERVICIO";
+        cancelarBtn.hidden = true;
+    }
+
+    // ELIMINAR UN SERVICIO
+    async function eliminarServicio(id) {
+        const confirmar = confirm(
+            "¿Seguro que deseas eliminar este servicio?"
+        );
+
+        if (!confirmar) return;
+
+        try {
+            const respuesta = await fetch(
+                API_SERVICIOS + "/" + id,
+                {
+                    method: "DELETE"
+                }
+            );
+
+            if (!respuesta.ok) {
+                const detalle = await respuesta.json().catch(() => ({}));
+
+                throw new Error(
+                    detalle.mensaje ||
+                    detalle.error ||
+                    "No se pudo eliminar el servicio. Puede tener citas asociadas."
+                );
+            }
+
+            if (idCampo.value == id) {
+                limpiarFormulario();
+            }
+
+            const cargados = await cargarServicios();
+
+            if (cargados) {
+                notificar("Servicio eliminado correctamente.", "success");
+            }
+
+        } catch (error) {
+            notificar(error.message, "error");
+        }
+    }
+
+    // REGISTRAR O ACTUALIZAR SERVICIOS
+    formulario.addEventListener("submit", async function(evento) {
+        evento.preventDefault();
+
+        const nombre = document.getElementById("nombreServicio").value.trim();
+
+        const descripcion = document.getElementById("descripcionServicio").value.trim();
+
+        const precio = Number(
+            document.getElementById("precioServicio").value
+        );
+
+        const duracion_minutos = Number(
+            document.getElementById("duracionServicio").value
+        );
+
+        const id = idCampo.value;
+
+        // VALIDAR LOS DATOS
+        if (
+            nombre === "" ||
+            !Number.isFinite(precio) ||
+            precio < 0 ||
+            !Number.isInteger(duracion_minutos) ||
+            duracion_minutos < 1
+        ) {
+            notificar("Revisa el nombre, precio y duración.", "error");
+            return;
+        }
+
+        boton.disabled = true;
+        boton.textContent = "GUARDANDO...";
+
+        let guardado = false;
+
+        try {
+            const respuesta = await fetch(
+                id ? API_SERVICIOS + "/" + id : API_SERVICIOS,
+                {
+                    method: id ? "PUT" : "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        nombre: nombre,
+                        descripcion: descripcion,
+                        precio: precio,
+                        duracion_minutos: duracion_minutos
+                    })
+                }
+            );
+
+            if (!respuesta.ok) {
+                const detalle = await respuesta.json().catch(() => ({}));
+
+                throw new Error(
+                    detalle.mensaje ||
+                    detalle.error ||
+                    "No se pudo guardar el servicio."
+                );
+            }
+
+            guardado = true;
+            limpiarFormulario();
+
+            const cargados = await cargarServicios();
+
+            if (cargados) {
+                notificar(
+                    id
+                        ? "Servicio actualizado correctamente."
+                        : "Servicio registrado correctamente.",
+                    "success"
+                );
+            }
+
+        } catch (error) {
+            notificar(error.message, "error");
+
+        } finally {
+            boton.disabled = false;
+
+            if (!guardado) {
+                boton.textContent = id
+                    ? "GUARDAR CAMBIOS"
+                    : "+ REGISTRAR SERVICIO";
+            }
+        }
     });
-    if(!respuesta.ok){const detalle=await respuesta.json().catch(()=>({}));throw new Error(detalle.mensaje||detalle.error||'No se pudo guardar el servicio.');}
-    limpiarFormulario();
-    const actualizado=await cargarServicios();if(actualizado)notificar(id?'Servicio actualizado correctamente.':'Servicio registrado correctamente.','success');
-  }catch(error){notificar(error.message,'error');}
-  finally{botonGuardar.disabled=false;botonGuardar.textContent=campoId.value?'GUARDAR CAMBIOS':'+ REGISTRAR SERVICIO';}
-});
-botonCancelar.addEventListener('click',()=>{limpiarFormulario();notificar('Edición cancelada.');});
-buscador.addEventListener('input',pintarServicios);
-cargarServicios();
+
+    // CANCELAR LA EDICIÓN
+    cancelarBtn.addEventListener("click", function() {
+        limpiarFormulario();
+        notificar("Edición cancelada.");
+    });
+
+    // BUSCAR SERVICIOS MIENTRAS SE ESCRIBE
+    buscador.addEventListener("input", mostrarServicios);
+
+    // CARGAR LOS SERVICIOS AL ABRIR LA PÁGINA
+    cargarServicios();
 </script>
+
 </body>
 </html>
