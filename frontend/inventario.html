@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventario Premium | Noble Society</title>
+  <link rel="stylesheet" href="estilos.css">
+  <style>
+    .inventory-panel{background:#151516;border:1px solid #393126;border-radius:13px;padding:30px;margin-bottom:28px}
+    .inventory-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+    .inventory-field{display:flex;flex-direction:column;gap:10px}
+    .inventory-field label{font-size:11px;letter-spacing:1.4px;color:#d6ad60;font-weight:700}
+    .inventory-field input,.inventory-search{box-sizing:border-box;width:100%;padding:15px;background:#0e0e0f;color:#f4f0e8;border:1px solid #454035;border-radius:8px;font:inherit;outline:none}
+    .inventory-field input:focus,.inventory-search:focus{border-color:#d6ad60}
+    .inventory-submit,.inventory-cancel,.inventory-action{font:inherit;cursor:pointer;border-radius:7px;font-weight:700}
+    .inventory-submit{margin-top:25px;background:#d6ad60;color:#111;border:0;padding:15px 25px}
+    .inventory-submit:disabled{opacity:.6;cursor:wait}
+    .inventory-cancel{margin-top:25px;margin-left:10px;background:transparent;color:#ddd;border:1px solid #71634f;padding:14px 20px}
+    .inventory-message{margin:14px 0 0;font-size:13px;min-height:18px}
+    .inventory-message.success{color:#91d6a0}.inventory-message.error{color:#ff9a9a}
+    .inventory-table-wrap{overflow-x:auto;margin-top:22px}
+    .inventory-table{width:100%;border-collapse:collapse;text-align:left}
+    .inventory-table th{color:#d6ad60;font-size:11px;letter-spacing:1px;border-bottom:1px solid #55452e;padding:15px}
+    .inventory-table td{color:#ddd5c9;border-bottom:1px solid #302c27;padding:16px;font-size:13px}
+    .inventory-table tbody tr:hover{background:#211d17}
+    .inventory-action{padding:8px 12px;margin:2px;font-size:12px}
+    .inventory-edit{background:#d6ad60;border:1px solid #d6ad60;color:#111}
+    .inventory-delete{background:transparent;border:1px solid #875252;color:#e58b8b}
+    .inventory-hero{background:linear-gradient(110deg,#12100f,#201a14 70%,#101010);border:1px solid #57462c;border-radius:13px;padding:35px;margin-bottom:25px}
+    .inventory-hero h2{font-family:'Cinzel',Georgia,serif;color:#e7c68a;margin:12px 0}
+    .inventory-hero p{color:#ada59a;font-size:13px}
+    .inventory-summary{color:#c8a76c;font-size:12px}
+    @media(max-width:720px){.inventory-grid{grid-template-columns:1fr}.inventory-panel{padding:20px}.inventory-hero{padding:25px}}
+  </style>
+</head>
+<body class="dashboard-body">
+<div class="luxury-layout">
+  <aside class="luxury-sidebar">
+    <div class="luxury-brand"><div class="brand-monogram">NS</div><h2>NOBLE SOCIETY</h2><span>THE GENTLEMEN'S CLUB</span></div>
+    <p class="sidebar-label">ADMINISTRACIÓN</p>
+    <nav class="luxury-nav">
+      <a href="dashboard.html">◈ &nbsp; Panel principal</a>
+      <a href="clientes.html">♙ &nbsp; Clientes</a>
+      <a href="citas.html">◷ &nbsp; Reservaciones</a>
+      <a href="servicios.html">✂ &nbsp; Servicios</a>
+      <a href="inventario.html" class="active">▣ &nbsp; Inventario</a>
+      <a href="reportes.html">▥ &nbsp; Reportes</a>
+    </nav>
+    <div class="sidebar-footer"><div class="gold-line"></div><p>EXCELLENCE IS A STANDARD</p><a href="index.html">↪ &nbsp; Salir del panel</a></div>
+  </aside>
+  <main class="luxury-main">
+    <div class="luxury-topbar">
+      <div><span class="eyebrow">NOBLE SOCIETY / INVENTARIO</span><h1>Inventario Premium<span class="gold-dot">.</span></h1><p>Control de existencias con precisión y distinción.</p></div>
+      <div class="admin-profile"><div class="profile-avatar">NS</div><div><strong>Administración</strong><small>Gestión de productos</small></div></div>
+    </div>
+    <section class="inventory-hero"><span class="eyebrow">THE NOBLE COLLECTION</span><h2>Excelencia en cada producto.</h2><p>Organiza el catálogo y mantén las existencias de tu barbería al día.</p></section>
+    <div class="section-heading"><div><span class="eyebrow">CONTROL DE EXISTENCIAS</span><h2 id="tituloFormulario">Registrar producto</h2></div></div>
+    <section class="inventory-panel">
+      <form id="formInventario">
+        <input type="hidden" id="productoEditando">
+        <div class="inventory-grid">
+          <div class="inventory-field"><label for="nombreProducto">NOMBRE DEL PRODUCTO *</label><input id="nombreProducto" type="text" maxlength="120" placeholder="Ej. Cera modeladora" required></div>
+          <div class="inventory-field"><label for="cantidadProducto">CANTIDAD *</label><input id="cantidadProducto" type="number" min="0" step="1" value="0" required></div>
+          <div class="inventory-field"><label for="precioProducto">PRECIO UNITARIO (COP) *</label><input id="precioProducto" type="number" min="0" step="0.01" value="0" required></div>
+        </div>
+        <button id="guardarProductoBtn" class="inventory-submit" type="submit">+ REGISTRAR PRODUCTO</button>
+        <button id="cancelarEdicion" class="inventory-cancel" type="button" hidden>CANCELAR EDICIÓN</button>
+        <p id="mensajeInventario" class="inventory-message" role="status"></p>
+      </form>
+    </section>
+    <div class="section-heading"><div><span class="eyebrow">COLECCIÓN EXCLUSIVA</span><h2>Productos registrados</h2></div><span id="contadorProductos" class="data-status">Cargando...</span></div>
+    <section class="inventory-panel">
+      <input class="inventory-search" id="buscarProducto" type="search" placeholder="Buscar producto por nombre..." aria-label="Buscar producto">
+      <p id="resumenInventario" class="inventory-summary"></p>
+      <div class="inventory-table-wrap"><table class="inventory-table"><thead><tr><th>PRODUCTO</th><th>CANTIDAD</th><th>PRECIO UNITARIO</th><th>VALOR EN STOCK</th><th>ACCIONES</th></tr></thead><tbody id="tablaInventario"><tr><td colspan="5">Cargando productos...</td></tr></tbody></table></div>
+    </section>
+    <footer class="luxury-footer"><span>© 2026 NOBLE SOCIETY</span><span>CRAFTED FOR EXCELLENCE</span></footer>
+  </main>
+</div>
+<script>
+'use strict';
+const API_INVENTARIO = 'http://localhost:3000/api/inventario';
+let productos = [];
+const formulario = document.getElementById('formInventario');
+const tabla = document.getElementById('tablaInventario');
+const mensaje = document.getElementById('mensajeInventario');
+const buscador = document.getElementById('buscarProducto');
+const botonGuardar = document.getElementById('guardarProductoBtn');
+const botonCancelar = document.getElementById('cancelarEdicion');
+const dinero = valor => new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',maximumFractionDigits:0}).format(Number(valor)||0);
+function notificar(texto, error=false){mensaje.textContent=texto;mensaje.className='inventory-message '+(error?'error':'success');}
+function cancelarEdicion(){formulario.reset();document.getElementById('productoEditando').value='';botonGuardar.textContent='+ REGISTRAR PRODUCTO';botonCancelar.hidden=true;document.getElementById('tituloFormulario').textContent='Registrar producto';}
+function pintarProductos(){
+  const filtro=buscador.value.toLocaleLowerCase('es').trim();
+  const visibles=productos.filter(p=>String(p.nombre??'').toLocaleLowerCase('es').includes(filtro));
+  tabla.replaceChildren();
+  if(!visibles.length){const fila=tabla.insertRow();const celda=fila.insertCell();celda.colSpan=5;celda.textContent='No se encontraron productos.';return;}
+  for(const producto of visibles){
+    const fila=tabla.insertRow();
+    const valores=[producto.nombre??'—',String(producto.cantidad??0),dinero(producto.precio_unitario),dinero(Number(producto.cantidad||0)*Number(producto.precio_unitario||0))];
+    for(const valor of valores){fila.insertCell().textContent=valor;}
+    const acciones=fila.insertCell();
+    const editar=document.createElement('button');editar.type='button';editar.className='inventory-action inventory-edit';editar.textContent='Editar';editar.addEventListener('click',()=>editarProducto(producto.id));
+    const eliminar=document.createElement('button');eliminar.type='button';eliminar.className='inventory-action inventory-delete';eliminar.textContent='Eliminar';eliminar.addEventListener('click',()=>eliminarProducto(producto.id));
+    acciones.append(editar,eliminar);
+  }
+}
+async function cargarProductos(){
+  try{
+    const respuesta=await fetch(API_INVENTARIO);
+    if(!respuesta.ok)throw new Error('No se pudieron consultar los productos.');
+    const resultado=await respuesta.json();
+    if(!Array.isArray(resultado.data))throw new Error('La API devolvió un formato inesperado.');
+    productos=resultado.data;
+    document.getElementById('contadorProductos').textContent=`${productos.length} productos registrados`;
+    const unidades=productos.reduce((total,p)=>total+Number(p.cantidad||0),0);
+    const valor=productos.reduce((total,p)=>total+Number(p.cantidad||0)*Number(p.precio_unitario||0),0);
+    document.getElementById('resumenInventario').textContent=`${unidades} unidades en existencia · Valor total estimado: ${dinero(valor)}`;
+    pintarProductos();
+    return true;
+  }catch(error){
+    notificar(error.message,true);
+    document.getElementById('contadorProductos').textContent='Sin conexión';
+    tabla.replaceChildren();const fila=tabla.insertRow();const celda=fila.insertCell();celda.colSpan=5;celda.textContent='No se pudieron cargar los productos.';
+    return false;
+  }
+}
+function editarProducto(id){
+  const producto=productos.find(p=>String(p.id)===String(id));if(!producto)return;
+  document.getElementById('productoEditando').value=producto.id;
+  document.getElementById('nombreProducto').value=producto.nombre??'';
+  document.getElementById('cantidadProducto').value=producto.cantidad??0;
+  document.getElementById('precioProducto').value=producto.precio_unitario??0;
+  botonGuardar.textContent='GUARDAR CAMBIOS';botonCancelar.hidden=false;
+  document.getElementById('tituloFormulario').textContent='Editar producto';
+  mensaje.textContent='Modifica los datos y guarda los cambios.';mensaje.className='inventory-message';
+  formulario.scrollIntoView({behavior:'smooth',block:'center'});
+}
+async function eliminarProducto(id){
+  if(!confirm('¿Seguro que deseas eliminar este producto? Esta acción no se puede deshacer.'))return;
+  try{
+    const respuesta=await fetch(`${API_INVENTARIO}/${encodeURIComponent(id)}`,{method:'DELETE'});
+    if(!respuesta.ok){const detalle=await respuesta.json().catch(()=>({}));throw new Error(detalle.mensaje||detalle.error||'No se pudo eliminar el producto.');}
+    if(document.getElementById('productoEditando').value===String(id))cancelarEdicion();
+    const actualizado=await cargarProductos();if(actualizado)notificar('Producto eliminado correctamente.');
+  }catch(error){notificar(error.message,true);}
+}
+formulario.addEventListener('submit',async evento=>{
+  evento.preventDefault();
+  const id=document.getElementById('productoEditando').value;
+  const nombre=document.getElementById('nombreProducto').value.trim();
+  const cantidad=Number(document.getElementById('cantidadProducto').value);
+  const precio_unitario=Number(document.getElementById('precioProducto').value);
+  if(!nombre||!Number.isInteger(cantidad)||cantidad<0||!Number.isFinite(precio_unitario)||precio_unitario<0){notificar('Revisa el nombre, la cantidad y el precio.',true);return;}
+  botonGuardar.disabled=true;botonGuardar.textContent='GUARDANDO...';
+  try{
+    const respuesta=await fetch(id?`${API_INVENTARIO}/${encodeURIComponent(id)}`:API_INVENTARIO,{
+      method:id?'PUT':'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nombre,cantidad,precio_unitario})
+    });
+    if(!respuesta.ok){const detalle=await respuesta.json().catch(()=>({}));throw new Error(detalle.mensaje||detalle.error||'No se pudo guardar el producto.');}
+    cancelarEdicion();
+    const actualizado=await cargarProductos();if(actualizado)notificar(id?'Producto actualizado correctamente.':'Producto registrado correctamente.');
+  }catch(error){notificar(error.message,true);}
+  finally{botonGuardar.disabled=false;botonGuardar.textContent=document.getElementById('productoEditando').value?'GUARDAR CAMBIOS':'+ REGISTRAR PRODUCTO';}
+});
+botonCancelar.addEventListener('click',()=>{cancelarEdicion();mensaje.textContent='';});
+buscador.addEventListener('input',pintarProductos);
+cargarProductos();
+</script>
+</body>
+</html>

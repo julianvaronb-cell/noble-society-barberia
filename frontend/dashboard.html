@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Ejecutivo | Noble Society</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body class="dashboard-body">
+
+<div class="luxury-layout">
+
+    <!-- MENÚ LATERAL -->
+    <aside class="luxury-sidebar">
+        <div class="luxury-brand">
+            <div class="brand-monogram">NS</div>
+            <h2>NOBLE SOCIETY</h2>
+            <span>THE GENTLEMEN'S CLUB</span>
+        </div>
+
+        <p class="sidebar-label">ADMINISTRACIÓN</p>
+
+        <nav class="luxury-nav">
+            <a href="dashboard.html" class="active">◈ &nbsp; Panel principal</a>
+            <a href="clientes.html">♙ &nbsp; Clientes</a>
+            <a href="citas.html">◷ &nbsp; Reservaciones</a>
+            <a href="servicios.html">✂ &nbsp; Servicios</a>
+            <a href="inventario.html">▣ &nbsp; Inventario</a>
+            <a href="reportes.html">▥ &nbsp; Reportes</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="gold-line"></div>
+            <p>EXCELLENCE IS A STANDARD</p>
+            <a href="index.html">↪ &nbsp; Salir del panel</a>
+        </div>
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="luxury-main">
+
+        <div class="luxury-topbar">
+            <div>
+                <span class="eyebrow">NOBLE SOCIETY / ADMINISTRACIÓN</span>
+                <h1>Panel Ejecutivo<span class="gold-dot">.</span></h1>
+                <p>El arte de la excelencia, en cada detalle.</p>
+            </div>
+
+            <div class="admin-profile">
+                <div class="profile-avatar">NS</div>
+                <div>
+                    <strong>Administración</strong>
+                    <small>Panel de gestión</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- BIENVENIDA -->
+        <section class="luxury-hero">
+            <div class="hero-content">
+                <span class="eyebrow">BIENVENIDO A NOBLE SOCIETY</span>
+                <h2>Donde la tradición<br>encuentra la <em>distinción.</em></h2>
+                <p>Gestiona cada aspecto de tu barbería desde un espacio diseñado para la excelencia.</p>
+                <a href="citas.html" class="luxury-button">GESTIONAR RESERVAS ↗</a>
+            </div>
+        </section>
+
+        <!-- ESTADÍSTICAS -->
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">VISIÓN GENERAL</span>
+                <h2>Resumen del negocio</h2>
+            </div>
+            <span class="data-status">Datos pendientes de conexión</span>
+        </div>
+
+        <section class="luxury-stats">
+            <article class="stat-card">
+                <span class="stat-icon">◷</span>
+                <p>CITAS PROGRAMADAS</p>
+                <h3 id="totalCitas">—</h3>
+                <small>Próximas reservaciones</small>
+            </article>
+
+            <article class="stat-card">
+                <span class="stat-icon">♙</span>
+                <p>CLIENTES REGISTRADOS</p>
+                <h3 id="totalClientes">—</h3>
+                <small>Base de clientes</small>
+            </article>
+
+            <article class="stat-card">
+                <span class="stat-icon">✂</span>
+                <p>SERVICIOS DISPONIBLES</p>
+                <h3 id="totalServicios">—</h3>
+                <small>Catálogo de servicios</small>
+            </article>
+
+            <article class="stat-card">
+                <span class="stat-icon">▣</span>
+                <p>PRODUCTOS EN INVENTARIO</p>
+                <h3 id="totalInventario">—</h3>
+                <small>Control de existencias</small>
+            </article>
+        </section>
+
+        <!-- ACCESOS RÁPIDOS -->
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">CENTRO DE OPERACIONES</span>
+                <h2>Gestión exclusiva</h2>
+            </div>
+        </div>
+
+        <section class="luxury-actions">
+            <a href="clientes.html" class="action-card">
+                <span class="action-symbol">♙</span>
+                <h3>Gestión de clientes</h3>
+                <p>Organiza y administra la información de tus clientes.</p>
+                <span class="action-link">EXPLORAR ↗</span>
+            </a>
+
+            <a href="citas.html" class="action-card">
+                <span class="action-symbol">◷</span>
+                <h3>Agenda de reservas</h3>
+                <p>Consulta y administra las citas de tu barbería.</p>
+                <span class="action-link">EXPLORAR ↗</span>
+            </a>
+
+            <a href="servicios.html" class="action-card">
+                <span class="action-symbol">✂</span>
+                <h3>Catálogo de servicios</h3>
+                <p>Gestiona tu oferta de cortes y tratamientos.</p>
+                <span class="action-link">EXPLORAR ↗</span>
+            </a>
+
+            <a href="inventario.html" class="action-card">
+                <span class="action-symbol">▣</span>
+                <h3>Inventario premium</h3>
+                <p>Administra productos, cantidades y existencias.</p>
+                <span class="action-link">EXPLORAR ↗</span>
+            </a>
+        </section>
+
+        <footer class="luxury-footer">
+            <span>© 2026 NOBLE SOCIETY</span>
+            <span>CRAFTED FOR EXCELLENCE</span>
+        </footer>
+
+    </main>
+</div>
+
+<script>
+async function cargarEstadisticas() {
+    const API = "http://localhost:3000/api";
+
+    const recursos = [
+        { ruta: "citas", id: "totalCitas" },
+        { ruta: "clientes", id: "totalClientes" },
+        { ruta: "servicios", id: "totalServicios" },
+        { ruta: "inventario", id: "totalInventario" }
+    ];
+
+    let errores = 0;
+
+    await Promise.all(recursos.map(async (recurso) => {
+        const elemento = document.getElementById(recurso.id);
+
+        if (!elemento) return;
+
+        try {
+            const respuesta = await fetch(`${API}/${recurso.ruta}`);
+
+            if (!respuesta.ok) {
+                throw new Error(`Error HTTP ${respuesta.status}`);
+            }
+
+            const resultado = await respuesta.json();
+
+            const total = Number.isFinite(Number(resultado.total))
+                ? Number(resultado.total)
+                : Array.isArray(resultado.data)
+                    ? resultado.data.length
+                    : null;
+
+            if (total === null) {
+                throw new Error("Formato de respuesta inesperado");
+            }
+
+            elemento.textContent = total;
+        } catch (error) {
+            console.error(`Error consultando ${recurso.ruta}:`, error);
+            elemento.textContent = "—";
+            errores++;
+        }
+    }));
+
+    const estado = document.querySelector(".data-status");
+
+    if (estado) {
+        estado.textContent = errores === 0
+            ? "Datos actualizados desde MySQL"
+            : "Algunas estadísticas no están disponibles";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", cargarEstadisticas);
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,4 @@
+Repositorio GitHub del proyecto Noble Society API:
+PEGAR_AQUI_LA_URL_REAL_DEL_REPOSITORIO
+
+Instrucción: crear un repositorio en GitHub, subir la carpeta del proyecto siguiendo README.md y reemplazar esta línea por el enlace real.

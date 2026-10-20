@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reservaciones VIP | Noble Society</title>
+<link rel="stylesheet" href="estilos.css">
+<style>
+.booking-intro{padding:40px 34px;border:1px solid #57462c;border-radius:13px;background:linear-gradient(110deg,#12100f,#201a14 70%,#101010)}
+.booking-intro h2{font-family:'Cinzel',Georgia,serif;color:#e7c68a;font-size:clamp(22px,3vw,34px);margin:12px 0}.booking-intro p{color:#ada59a;font-size:13px}
+.booking-panel{background:#151516;border:1px solid #393126;border-radius:13px;padding:28px}.booking-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.booking-field{display:flex;flex-direction:column;gap:9px}.booking-field label{font-size:11px;letter-spacing:1px;color:#c8a76c;font-weight:700}
+.booking-field input,.booking-field select,.booking-field textarea,.booking-search{width:100%;box-sizing:border-box;background:#0e0e0f;color:#f4f0e8;border:1px solid #454035;border-radius:8px;padding:14px;font:inherit;outline:none}
+.booking-field input:focus,.booking-field select:focus,.booking-field textarea:focus,.booking-search:focus{border-color:#d6ad60}.booking-field select option{background:#171717;color:#fff}
+.booking-wide{grid-column:1/-1}.booking-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}.booking-btn{width:auto;padding:13px 20px;border-radius:7px;cursor:pointer;font-weight:700;letter-spacing:.7px;font-size:12px;border:1px solid #d6ad60;background:#d6ad60;color:#111}.booking-btn:disabled{opacity:.55;cursor:wait}.booking-secondary{background:transparent;color:#d6ad60}.booking-message{margin-top:14px;font-size:13px;color:#d6ad60;min-height:1em}.booking-message.error{color:#ff9a9a}.booking-message.success{color:#91d6a0}
+.booking-table-wrap{overflow-x:auto}.booking-table{width:100%;border-collapse:collapse;text-align:left;min-width:850px}.booking-table th{color:#d6ad60;font-size:11px;letter-spacing:1px;padding:15px 12px;border-bottom:1px solid #55452e}.booking-table td{color:#ddd5c9;font-size:13px;padding:15px 12px;border-bottom:1px solid #302c27}.booking-table tbody tr:hover{background:#211d17}.booking-small-btn{width:auto;padding:8px 11px;margin:2px;border-radius:5px;border:1px solid #d6ad60;background:transparent;color:#d6ad60;cursor:pointer;font-size:12px}.booking-small-btn.danger{border-color:#875252;color:#e58b8b}.booking-search{margin-bottom:20px}.booking-status{color:#e7c68a}.booking-hint{color:#ada59a;font-size:12px;margin-top:12px}
+@media(max-width:720px){.booking-grid{grid-template-columns:1fr}.booking-panel{padding:19px}.booking-intro{padding:27px 21px}}
+</style>
+</head>
+<body class="dashboard-body">
+<div class="luxury-layout">
+<aside class="luxury-sidebar">
+<div class="luxury-brand"><div class="brand-monogram">NS</div><h2>NOBLE SOCIETY</h2><span>THE GENTLEMEN'S CLUB</span></div>
+<p class="sidebar-label">ADMINISTRACIÓN</p>
+<nav class="luxury-nav">
+<a href="dashboard.html">◈ &nbsp; Panel principal</a>
+<a href="clientes.html">♙ &nbsp; Clientes</a>
+<a href="citas.html" class="active">◷ &nbsp; Reservaciones</a>
+<a href="servicios.html">✂ &nbsp; Servicios</a>
+<a href="inventario.html">▣ &nbsp; Inventario</a>
+<a href="reportes.html">▥ &nbsp; Reportes</a>
+</nav>
+<div class="sidebar-footer"><div class="gold-line"></div><p>EXCELLENCE IS A STANDARD</p><a href="index.html">↪ &nbsp; Salir del panel</a></div>
+</aside>
+<main class="luxury-main">
+<div class="luxury-topbar"><div><span class="eyebrow">NOBLE SOCIETY / RESERVACIONES</span><h1>Agenda de Reservaciones<span class="gold-dot">.</span></h1><p>Organiza cada experiencia con distinción.</p></div><div class="admin-profile"><div class="profile-avatar">NS</div><div><strong>Administración</strong><small>Gestión de citas</small></div></div></div>
+<section class="booking-intro"><span class="eyebrow">THE NOBLE EXPERIENCE</span><h2>Cada cita, una experiencia exclusiva.</h2><p>Gestiona las reservaciones de tu barbería desde un solo lugar.</p></section>
+<div class="section-heading"><div><span class="eyebrow">GESTIÓN DE AGENDA</span><h2 id="tituloFormulario">Nueva reservación</h2></div></div>
+<section class="booking-panel">
+<form id="formCita">
+<input type="hidden" id="citaEditando">
+<div class="booking-grid">
+<div class="booking-field"><label for="clienteCita">CLIENTE *</label><select id="clienteCita" required><option value="">Cargando clientes...</option></select></div>
+<div class="booking-field"><label for="servicioCita">SERVICIO *</label><select id="servicioCita" required><option value="">Cargando servicios...</option></select></div>
+<div class="booking-field"><label for="fechaCita">FECHA *</label><input id="fechaCita" type="date" required></div>
+<div class="booking-field"><label for="horaCita">HORA *</label><input id="horaCita" type="time" required></div>
+<div class="booking-field"><label for="estadoCita">ESTADO</label><select id="estadoCita"><option value="programada">Programada</option><option value="confirmada">Confirmada</option><option value="atendida">Atendida</option><option value="cancelada">Cancelada</option></select></div>
+<div class="booking-field booking-wide"><label for="observacionesCita">OBSERVACIONES</label><textarea id="observacionesCita" rows="3" maxlength="500" placeholder="Notas opcionales sobre la reservación..."></textarea></div>
+</div>
+<div class="booking-actions"><button class="booking-btn" id="guardarCitaBtn" type="submit">+ AGENDAR CITA</button><button class="booking-btn booking-secondary" id="cancelarEdicion" type="button" hidden>CANCELAR EDICIÓN</button></div>
+<p id="mensajeCita" class="booking-message" role="status"></p>
+<p class="booking-hint">Para reservar, primero debes tener al menos un cliente y un servicio registrados.</p>
+</form>
+</section>
+<div class="section-heading"><div><span class="eyebrow">DIRECTORIO DE RESERVAS</span><h2>Citas registradas</h2></div><span class="data-status" id="contadorCitas">Cargando...</span></div>
+<section class="booking-panel"><input class="booking-search" id="buscarCita" type="search" placeholder="Buscar cliente, servicio, fecha o estado..." aria-label="Buscar reservaciones"><div class="booking-table-wrap"><table class="booking-table"><thead><tr><th>CLIENTE</th><th>SERVICIO</th><th>FECHA</th><th>HORA</th><th>ESTADO</th><th>ACCIONES</th></tr></thead><tbody id="tablaCitas"><tr><td colspan="6">Cargando reservaciones...</td></tr></tbody></table></div></section>
+<footer class="luxury-footer"><span>© 2026 NOBLE SOCIETY</span><span>CRAFTED FOR EXCELLENCE</span></footer>
+</main></div>
+<script>
+const API = 'http://localhost:3000/api';
+let clientes = [], servicios = [], citas = [];
+const $ = id => document.getElementById(id);
+const form = $('formCita');
+function mensaje(texto, tipo = '') { $('mensajeCita').textContent = texto; $('mensajeCita').className = 'booking-message ' + tipo; }
+async function consultar(ruta, opciones) {
+    const respuesta = await fetch(`${API}/${ruta}`, opciones);
+    if (!respuesta.ok) {
+        const detalle = await respuesta.json().catch(() => ({}));
+        throw new Error(detalle.mensaje || detalle.error || `Error ${respuesta.status} al consultar ${ruta}`);
+    }
+    if (respuesta.status === 204) return {};
+    return respuesta.json().catch(() => ({}));
+}
+function llenarSelector(id, elementos, etiqueta) {
+    const selector = $(id);
+    selector.replaceChildren();
+    const inicial = document.createElement('option');
+    inicial.value = '';
+    inicial.textContent = elementos.length ? `Seleccionar ${etiqueta}` : `No hay ${etiqueta}s registrados`;
+    selector.append(inicial);
+    elementos.forEach(item => {
+        const opcion = document.createElement('option');
+        opcion.value = String(item.id);
+        opcion.textContent = etiqueta === 'servicio' ? `${item.nombre} — $${Number(item.precio || 0).toLocaleString('es-CO')}` : item.nombre;
+        selector.append(opcion);
+    });
+}
+async function cargarCatalogos() {
+    const resultados = await Promise.allSettled([consultar('clientes'), consultar('servicios')]);
+    if (resultados[0].status === 'fulfilled') {
+        clientes = resultados[0].value.data || [];
+        llenarSelector('clienteCita', clientes, 'cliente');
+    } else { mensaje('No se pudieron cargar los clientes.', 'error'); }
+    if (resultados[1].status === 'fulfilled') {
+        servicios = resultados[1].value.data || [];
+        llenarSelector('servicioCita', servicios, 'servicio');
+    } else { mensaje('No se pudieron cargar los servicios. Revisa que el backend esté activo.', 'error'); }
+}
+function fechaVisible(valor) {
+    if (!valor) return '—';
+    const texto = String(valor);
+    const iso = texto.match(/^(\d{4})-(\d{2})-(\d{2})/);
+    return iso ? `${iso[3]}/${iso[2]}/${iso[1]}` : texto;
+}
+function fechaInput(valor) {
+    if (!valor) return '';
+    return String(valor).slice(0, 10);
+}
+function horaInput(valor) { return String(valor || '').slice(0, 5); }
+function nombrePorId(lista, id) {
+    const encontrado = lista.find(item => String(item.id) === String(id));
+    return encontrado ? encontrado.nombre : `#${id ?? '—'}`;
+}
+function pintarCitas() {
+    const termino = $('buscarCita').value.toLowerCase().trim();
+    const filtradas = citas.filter(c => {
+        const cliente = c.cliente_nombre || nombrePorId(clientes, c.cliente_id);
+        const servicio = c.servicio_nombre || nombrePorId(servicios, c.servicio_id);
+        return [cliente, servicio, fechaVisible(c.fecha), c.estado].some(v => String(v || '').toLowerCase().includes(termino));
+    });
+    const cuerpo = $('tablaCitas'); cuerpo.replaceChildren();
+    if (!filtradas.length) {
+        const fila = cuerpo.insertRow(), celda = fila.insertCell();
+        celda.colSpan = 6; celda.textContent = 'No se encontraron reservaciones.';
+        return;
+    }
+    filtradas.forEach(c => {
+        const fila = cuerpo.insertRow();
+        const datos = [c.cliente_nombre || nombrePorId(clientes, c.cliente_id), c.servicio_nombre || nombrePorId(servicios, c.servicio_id), fechaVisible(c.fecha), horaInput(c.hora), c.estado || 'programada'];
+        datos.forEach((valor, i) => {
+            const celda = fila.insertCell(); celda.textContent = valor;
+            if (i === 4) celda.className = 'booking-status';
+        });
+        const acciones = fila.insertCell();
+        const editar = document.createElement('button'); editar.type = 'button'; editar.className = 'booking-small-btn'; editar.textContent = 'Editar'; editar.addEventListener('click', () => editarCita(c.id));
+        const eliminar = document.createElement('button'); eliminar.type = 'button'; eliminar.className = 'booking-small-btn danger'; eliminar.textContent = 'Eliminar'; eliminar.addEventListener('click', () => eliminarCita(c.id));
+        acciones.append(editar, eliminar);
+    });
+}
+async function cargarCitas() {
+    try {
+        const resultado = await consultar('citas');
+        if (!Array.isArray(resultado.data)) throw new Error('Formato de respuesta inesperado.');
+        citas = resultado.data;
+        $('contadorCitas').textContent = `${resultado.total ?? citas.length} reservaciones`;
+        pintarCitas();
+    } catch (error) {
+        $('contadorCitas').textContent = 'Sin conexión';
+        const cuerpo = $('tablaCitas'); cuerpo.replaceChildren();
+        const celda = cuerpo.insertRow().insertCell(); celda.colSpan = 6; celda.textContent = 'No se pudieron cargar las reservaciones.';
+        mensaje(error.message, 'error');
+    }
+}
+function limpiarFormulario() {
+    form.reset(); $('citaEditando').value = '';
+    $('tituloFormulario').textContent = 'Nueva reservación';
+    $('guardarCitaBtn').textContent = '+ AGENDAR CITA';
+    $('cancelarEdicion').hidden = true;
+}
+function editarCita(id) {
+    const cita = citas.find(c => String(c.id) === String(id));
+    if (!cita) return;
+    $('citaEditando').value = cita.id;
+    $('clienteCita').value = String(cita.cliente_id);
+    $('servicioCita').value = String(cita.servicio_id);
+    $('fechaCita').value = fechaInput(cita.fecha);
+    $('horaCita').value = horaInput(cita.hora);
+    $('estadoCita').value = cita.estado || 'programada';
+    $('observacionesCita').value = cita.observaciones || '';
+    $('tituloFormulario').textContent = 'Editar reservación';
+    $('guardarCitaBtn').textContent = 'GUARDAR CAMBIOS';
+    $('cancelarEdicion').hidden = false;
+    mensaje('Editando reservación seleccionada.');
+    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+async function eliminarCita(id) {
+    if (!confirm('¿Eliminar esta reservación de forma permanente?')) return;
+    try {
+        await consultar(`citas/${encodeURIComponent(id)}`, { method: 'DELETE' });
+        if ($('citaEditando').value === String(id)) limpiarFormulario();
+        await cargarCitas(); mensaje('Reservación eliminada correctamente.', 'success');
+    } catch (error) { mensaje(error.message, 'error'); }
+}
+form.addEventListener('submit', async evento => {
+    evento.preventDefault();
+    const id = $('citaEditando').value;
+    const datos = {
+        cliente_id: Number($('clienteCita').value),
+        servicio_id: Number($('servicioCita').value),
+        fecha: $('fechaCita').value,
+        hora: $('horaCita').value,
+        estado: $('estadoCita').value,
+        observaciones: $('observacionesCita').value.trim()
+    };
+    if (!datos.cliente_id || !datos.servicio_id || !datos.fecha || !datos.hora) {
+        mensaje('Completa cliente, servicio, fecha y hora.', 'error'); return;
+    }
+    const boton = $('guardarCitaBtn'); boton.disabled = true; boton.textContent = 'GUARDANDO...';
+    try {
+        await consultar(id ? `citas/${encodeURIComponent(id)}` : 'citas', {
+            method: id ? 'PUT' : 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(datos)
+        });
+        limpiarFormulario();
+        await cargarCitas();
+        mensaje(id ? 'Reservación actualizada correctamente.' : 'Reservación registrada correctamente.', 'success');
+    } catch (error) { mensaje(error.message, 'error'); }
+    finally { boton.disabled = false; if ($('citaEditando').value === '') boton.textContent = '+ AGENDAR CITA'; else boton.textContent = 'GUARDAR CAMBIOS'; }
+});
+$('cancelarEdicion').addEventListener('click', () => { limpiarFormulario(); mensaje('Edición cancelada.'); });
+$('buscarCita').addEventListener('input', pintarCitas);
+(async () => { await cargarCatalogos(); await cargarCitas(); })();
+</script>
+</body>
+</html>
