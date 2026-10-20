@@ -1,0 +1,73 @@
+# EVIDENCIA GA7-220501096-AA4-EV03
+
+**Componente front-end del proyecto formativo y proyectos de clase**
+
+**Programa:** Tecnólogo en Análisis y Desarrollo de Software (ADSO)
+
+**Proyecto:** Noble Society
+
+**Integrantes:**
+- Julián Varón
+- Karen Colmenares
+- David Echeverría
+- Deisi Paola Durán
+
+## Descripción del proyecto
+
+Para esta evidencia trabajamos en el desarrollo del frontend de nuestro proyecto formativo Noble Society, que consiste en una aplicación web para llevar el control y la administración de una barbería.
+
+Durante el desarrollo utilizamos HTML, CSS y JavaScript, poniendo en práctica los conocimientos que hemos adquirido durante nuestra formación en el SENA.
+
+Nuestro proyecto cuenta con diferentes módulos, como inicio de sesión, panel principal, clientes, citas, servicios, inventario y reportes.
+
+También realizamos la conexión con el backend para poder registrar, consultar, editar y eliminar información almacenada en una base de datos MySQL.
+
+Para desarrollar las diferentes páginas tuvimos en cuenta las funcionalidades que habíamos planteado anteriormente en nuestro proyecto. Además, organizamos el código, agregamos comentarios y realizamos pruebas para comprobar que los módulos funcionaran correctamente.
+
+## Repositorio de GitHub
+
+https://github.com/julianvaronb-cell/noble-society-barberia
+
+Utilizamos Git y GitHub para guardar los cambios que fuimos realizando durante el desarrollo y llevar un registro de las actualizaciones del proyecto.
+
+En este repositorio se encuentran los archivos que hemos trabajado para la construcción de Noble Society.
+
+## Cómo ejecutar el proyecto
+
+Para ejecutar nuestro proyecto es necesario descargar los archivos y abrirlos en Visual Studio Code.
+
+Primero debemos ingresar a la carpeta `backend` y ejecutar el siguiente comando:
+
+`npm run dev`
+
+Después abrimos otra terminal, ingresamos a la carpeta `frontend` y ejecutamos:
+
+`py -m http.server 5500`
+
+Una vez iniciados los servidores, abrimos el navegador e ingresamos a:
+
+http://localhost:5500/index.html
+
+Para que todas las funciones trabajen correctamente, también es necesario tener configurada la base de datos MySQL.
+
+## Acceso al sistema
+
+Nuestro proyecto cuenta con un inicio de sesión para ingresar a los diferentes módulos.
+
+Para realizar las pruebas se puede utilizar una cuenta de demostración creada en la base de datos.
+
+**Correo de prueba:** julian.varonb@cun.edu.co
+
+**Contraseña:**NoblePrueba2026!
+
+Después de ingresar correctamente, el sistema nos dirige al panel principal, donde podemos acceder a los módulos de clientes, citas, servicios, inventario y reportes.
+
+**Nota:** Para iniciar sesión es necesario que el backend esté funcionando y que la base de datos tenga registrado el usuario de prueba.
+
+## Conclusión
+
+Con esta actividad pudimos aplicar lo aprendido durante nuestra formación en el SENA sobre la creación de páginas web y el uso de HTML, CSS y JavaScript.
+
+Como equipo logramos avanzar en el desarrollo de Noble Society, creando diferentes módulos y conectándolos con el backend y la base de datos.
+
+También aprendimos a utilizar herramientas como Git y GitHub para guardar nuestro trabajo y llevar un control de los cambios realizados durante el desarrollo del proyecto.
